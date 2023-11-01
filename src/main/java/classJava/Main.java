@@ -1,7 +1,13 @@
 package classJava;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        new ConnectDB("palaumae");
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("Entrer votre mot de passe : ");
+        String pass = myObj.nextLine();
+        ConnectDB conn = new ConnectDB(pass);
+        conn.RequeteSelect();
     }
 }
