@@ -13,6 +13,7 @@ public class FleurView extends JPanel
     private static JButton ajouterFleur, supprFleur, modifierProduit;
     private static JTable table;
 
+    String[] colonne = {"Nom", "Prix","Age","Durée de vie", "Vivante", "Quantité"};
     private ConnectDB conn = new ConnectDB("palaumae");
     public FleurView()
     {
@@ -29,45 +30,49 @@ public class FleurView extends JPanel
         panel.add(boiteVertical);
 
         //Initialisation de la table
-        //Donnée de la table / Devra être connecté à la BDD
-        String[][] data = {{"Rose","100","Rouge","10","2","5","2"},{"Tiare","200","Blanc","50","3","4","3"}};
-        String[] colonne = {"Nom", "Prix", "Couleur", "Taille","Age","Durée de vie", "Quantité", };
-
         table = new JTable();
         table.setBounds(20,20,200,400);
-
+        //Initialisation du model
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
-        model.addRow(new Object[]{"Tiare",100,10,15,true,2});
         table.setModel(model);
-
+        //Ajout des données de la base de donnée dans la table
+        conn.GetTable(model,colonne);
+        //Ajout de la table dans un scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane);
         this.setVisible(true);
-
+        //Ajout de la possibilité de selectionner une ligne de la table
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
+        //Ajout de la table dans le panel
         this.add(table);
 
         //Création du bouton pour rajouter une fleur
         ajouterFleur = new JButton("Ajouter");
         boiteVertical.add(ajouterFleur);
-        String textBox = "some text here";
         ajouterFleur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String nom = JOptionPane.showInputDialog("Nom :");
+                Boolean correct = false;
+                while(!correct) {
+                    String nom = JOptionPane.showInputDialog("Nom :");
 
-                double prix = Double.parseDouble(JOptionPane.showInputDialog("prix : (Chiffre seulement)"));
+                    double prix = Double.parseDouble(JOptionPane.showInputDialog("prix : (Chiffre seulement)"));
 
-                int age = Integer.parseInt(JOptionPane.showInputDialog("age : (Chiffre seulement)"));
+                    double age = Integer.parseInt(JOptionPane.showInputDialog("age : (Chiffre seulement)"));
 
-                int dureeVie = Integer.parseInt(JOptionPane.showInputDialog("dureeVie :"));
+                    double dureeVie = Integer.parseInt(JOptionPane.showInputDialog("dureeVie :"));
 
-                int quantite = Integer.parseInt(JOptionPane.showInputDialog("quantite : (Chiffre seulement)"));
+                    int quantite = Integer.parseInt(JOptionPane.showInputDialog("quantite : (Chiffre seulement)"));
 
-                //Fleur fleur = new Fleur(nom,prix,couleur,taille,age,dureeVie,quantite);
-                model.addRow(new Object[]{nom,prix,age,dureeVie,true,quantite});
-                //table.add("fleur", fleur);
-                //fleur.showProduct();
+                    if(age > dureeVie){
+                        JOptionPane.showMessageDialog(null, "L'age ne peut pas être supérieur à la durée de vie");
+                    }
+                    else{
+                        correct = true;
+//                        model.addRow(new Object[]{nom, prix, age, dureeVie, true, quantite});
+                        conn.addFleur(nom, prix, age, dureeVie, quantite);
+                        resetTable();
+                    }
+                }
             }
         });
 
@@ -77,7 +82,9 @@ public class FleurView extends JPanel
         supprFleur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 if(table.getSelectedRow() != -1) {
-                    model.removeRow(table.getSelectedRow());
+                    // Suppression de la ligne sélectionnée dans la base de donnée
+                    conn.deleteFleur(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    resetTable();
                     JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
                 }
             }
@@ -94,7 +101,9 @@ public class FleurView extends JPanel
         });
     }
 
-    public JTable getComponent(JTable table) {
-        return table;
+    public void resetTable(){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        conn.GetTable(model, colonne);
     }
 }
