@@ -16,4 +16,19 @@ Pour se connecter à la base de donnée via POSTGESQL :
   ```
 - Entrer ensuite votre mot de passe dans la console après avoir lancé le main.
 
+---
+
+TO DO LIST :
+- Faire les tests unitaires
+- Faire les tests d'intégration
+- Finir la base de donnée
+- Finir l'interface graphique
+- - Faire la view commande
+- - Faire la view fleur
+- - Faire la view client
+- Lier le Type de fleur avec la durée de vie de celle çi
+- Penser coté perspective d'avenir du projet
+- Revoir le mcd
+- Bien définir les contraintes pour les fleurs et les commandes etc
+
  

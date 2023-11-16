@@ -9,7 +9,6 @@ public class Main {
         Scanner myObj = new Scanner(System.in);
         System.out.println("Entrer votre mot de passe : ");
         String pass = myObj.nextLine();
-        ConnectDB conn = new ConnectDB(pass);
-        new PrincipalView();
+        new PrincipalView(pass);
     }
 }

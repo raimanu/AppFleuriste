@@ -1,5 +1,7 @@
 package view;
 
+import queries.CommandeViewQueries;
+import queries.FleurViewQueries;
 import view.FleurView;
 
 import java.awt.BorderLayout;
@@ -14,16 +16,17 @@ import javax.swing.table.DefaultTableModel;
 public class CommandeView extends JPanel{
     private static JTable table;
 
-    private static JButton ajouterCommande, supprCommande, modifierCommande;
+    private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur;
 
-    public CommandeView() {
+    String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
+
+    public CommandeViewQueries conn;
+
+    public CommandeView(String password) {
+        conn = new CommandeViewQueries(password);
         //Creation du panel principale
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));
-
-        String[] colonne = {"Nom", "Prix", "Couleur", "Taille","Age","Durée de vie", "Quantité", };
-        DefaultTableModel model = new DefaultTableModel(colonne, 0);
-        model.addRow(new Object[]{"Rose","100","Rouge",10,2,5,2});
 
         //Creation panel de gauche pour mettre les boutons
         JPanel panel = new JPanel();
@@ -33,13 +36,92 @@ public class CommandeView extends JPanel{
         Box boiteVertical = Box.createVerticalBox();
         panel.add(boiteVertical);
 
+        //Initialisation de la table
+        table = new JTable();
+        table.setBounds(20,20,200,400);
+        //Initialisation du model
+        DefaultTableModel model = new DefaultTableModel(colonne, 0);
+        table.setModel(model);
+        //Ajout de la table dans un scrollPane
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.createVerticalScrollBar();
+        //Ajout des données de la base de donnée dans la table
+        conn.GetCommandeTable(model);
+        this.add(scrollPane);
+        //Ajout de la possibilité de selectionner une ligne et une case de la table
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        //Ajout de la table dans le panel
+        this.add(scrollPane);
+
         //Création du bouton pour rajouter une fleur
         ajouterCommande = new JButton("Ajouter");
         boiteVertical.add(ajouterCommande);
-        String textBox = "some text here";
         ajouterCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String date = JOptionPane.showInputDialog(null, "Date de la commande");
+                int client_id = Integer.parseInt(JOptionPane.showInputDialog(null, "Id du client"));
+                conn.ajoutCommande(date, client_id);
+                model.setRowCount(0);
+                resetTable();
             }
         });
+
+        //Création du bouton pour ajouter une fleur à la commande
+        ajouterFleur = new JButton("Ajouter une fleur");
+        boiteVertical.add(ajouterFleur);
+        ajouterFleur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1){
+                    int commande_id = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    int fleur_id = Integer.parseInt(JOptionPane.showInputDialog(null, "Id de la fleur"));
+                    int quantite = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantité"));
+                    conn.ajoutFleurCommande(commande_id, fleur_id, quantite);
+                    model.setRowCount(0);
+                    resetTable();
+                    view.FleurView.resetTable();
+                }
+            }
+        });
+
+        //Création du bouton pour modifier une commande
+        modifierCommande = new JButton("Modifier");
+        boiteVertical.add(modifierCommande);
+        modifierCommande.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1){
+                    // Vérification de la colonne selectionné
+                    if (table.getSelectedColumn() != -1 && table.getSelectedColumn() != 0){
+                        String valeur = JOptionPane.showInputDialog("Nouvelle Valeur :");
+                        String clePrim = table.getValueAt(table.getSelectedRow(), 0).toString();
+                        conn.modifCommande(table.getColumnName(table.getSelectedColumn()),valeur,clePrim);
+                        resetTable();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Veuillez selectionner une colonne valide !");
+                    }
+                }
+            }
+        });
+
+        //Création du bouton pour supprimer une commande
+        supprCommande = new JButton("Remove");
+        boiteVertical.add(supprCommande);
+        supprCommande.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1) {
+                    // Suppression de la ligne sélectionnée dans la base de donnée
+                    conn.supprCommande(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    // Rafraichit la table pour afficher les nouvelles données
+                    resetTable();
+                    view.FleurView.resetTable();
+                    JOptionPane.showMessageDialog(null, "Ligne selectionné supprimé !");
+                }
+            }
+        });
+    }
+
+    public void resetTable(){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        conn.GetCommandeTable(model);
     }
 }

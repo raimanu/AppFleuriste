@@ -13,7 +13,7 @@ import javax.swing.JTable;
 public class AccueilView extends JPanel{
     private static JTable table;
 
-    public AccueilView() {
+    public AccueilView(String password) {
         //Création du panel principale
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));

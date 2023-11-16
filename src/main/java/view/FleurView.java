@@ -1,22 +1,32 @@
 package view;
 
+import classJava.ConnectDB;
+import queries.FleurViewQueries;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import classJava.ConnectDB;
 
-public class FleurView extends JPanel
-{
-    private static JButton ajouterFleur, supprFleur, modifierProduit;
+//Javadoc de la class FleurView
+/**
+ * Class permettant de gérer l'onglet fleur.
+ */
+public class FleurView extends JPanel {
     private static JTable table;
 
-    String[] colonne = {"Nom", "Prix","Age","Durée de vie", "Vivante", "Quantité"};
-    private ConnectDB conn = new ConnectDB("palaumae");
-    public FleurView()
+    String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
+    public static FleurViewQueries conn;
+    public FleurView(String password)
     {
+        conn = new FleurViewQueries(password);
         //Creation du panel principale
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));
@@ -35,41 +45,43 @@ public class FleurView extends JPanel
         //Initialisation du model
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
         table.setModel(model);
-        //Ajout des données de la base de donnée dans la table
-        conn.GetTable(model,colonne);
         //Ajout de la table dans un scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.createVerticalScrollBar();
+        //Ajout des données de la base de donnée dans la table
+        conn.GetFleurTable(model);
         this.add(scrollPane);
-        this.setVisible(true);
-        //Ajout de la possibilité de selectionner une ligne de la table
+        //Ajout de la possibilité de selectionner une ligne et une case de la table
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         //Ajout de la table dans le panel
-        this.add(table);
+        this.add(scrollPane);
 
         //Création du bouton pour rajouter une fleur
-        ajouterFleur = new JButton("Ajouter");
+        JButton ajouterFleur = new JButton("Ajouter");
         boiteVertical.add(ajouterFleur);
         ajouterFleur.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                Boolean correct = false;
+                boolean correct = false;
                 while(!correct) {
                     String nom = JOptionPane.showInputDialog("Nom :");
 
-                    double prix = Double.parseDouble(JOptionPane.showInputDialog("prix : (Chiffre seulement)"));
+                    float age = Float.parseFloat(JOptionPane.showInputDialog("age : (Chiffre seulement)"));
 
-                    double age = Integer.parseInt(JOptionPane.showInputDialog("age : (Chiffre seulement)"));
+                    float dureeVie = Float.parseFloat(JOptionPane.showInputDialog("duree de vie : (Chiffre seulement)"));
 
-                    double dureeVie = Integer.parseInt(JOptionPane.showInputDialog("dureeVie :"));
+                    float prix = Float.parseFloat(JOptionPane.showInputDialog("prix : (Chiffre seulement)"));
 
                     int quantite = Integer.parseInt(JOptionPane.showInputDialog("quantite : (Chiffre seulement)"));
+
+                    int fournisseur_id = Integer.parseInt(JOptionPane.showInputDialog("fournisseur_id : (Chiffre seulement)"));
 
                     if(age > dureeVie){
                         JOptionPane.showMessageDialog(null, "L'age ne peut pas être supérieur à la durée de vie");
                     }
                     else{
                         correct = true;
-//                        model.addRow(new Object[]{nom, prix, age, dureeVie, true, quantite});
-                        conn.addFleur(nom, prix, age, dureeVie, quantite);
+                        conn.ajoutFleur(nom, age, dureeVie, prix, quantite, fournisseur_id);
                         resetTable();
                     }
                 }
@@ -77,33 +89,55 @@ public class FleurView extends JPanel
         });
 
         //création du bouton supprimer
-        supprFleur = new JButton("Remove");
+        JButton supprFleur = new JButton("Remove");
         boiteVertical.add(supprFleur);
         supprFleur.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 if(table.getSelectedRow() != -1) {
                     // Suppression de la ligne sélectionnée dans la base de donnée
-                    conn.deleteFleur(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    conn.supprFleur(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    // Rafraichit la table pour afficher les nouvelles données
                     resetTable();
-                    JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+                    JOptionPane.showMessageDialog(null, "Ligne selectionné supprimé !");
                 }
             }
         });
 
         //création du bouton modifier
-        modifierProduit = new JButton("Modifier");
+        JButton modifierProduit = new JButton("Modifier");
         boiteVertical.add(modifierProduit);
         modifierProduit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                conn.RequeteSelect();
+                if(table.getSelectedRow() != -1){
+                    // Vérification de la colonne selectionné
+                    if (table.getSelectedColumn() != -1 && table.getSelectedColumn() != 0){
+                        String valeur = JOptionPane.showInputDialog("Nouvelle Valeur :");
+                        String clePrim = table.getValueAt(table.getSelectedRow(), 0).toString();
+                        conn.modifFleur(table.getColumnName(table.getSelectedColumn()),valeur,clePrim);
+                        resetTable();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Veuillez selectionner une colonne valide !");
+                    }
+                }
+            }
+        });
+
+        //Création du bouton pour rafraichir la table
+        JButton rafraichir = new JButton("Rafraichir");
+        boiteVertical.add(rafraichir);
+        rafraichir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetTable();
             }
         });
     }
 
-    public void resetTable(){
+    public static void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        conn.GetTable(model, colonne);
+        conn.GetFleurTable(model);
     }
 }

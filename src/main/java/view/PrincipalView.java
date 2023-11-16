@@ -12,8 +12,7 @@ public class PrincipalView extends JFrame {
     private static JTabbedPane voletOnglet;
     private JPanel ongletAccueil, ongletFleur, ongletCommande;
 
-    public PrincipalView() {
-
+    public PrincipalView(String password) {
         this.setTitle("Gestion des commandes et du stock");
 
         //Couleur gris du content pane
@@ -30,15 +29,15 @@ public class PrincipalView extends JFrame {
         voletOnglet.setForeground(Color.BLACK);
 
         //Ajout de l'onglet Acceuil
-        ongletAccueil = new AccueilView();
+        ongletAccueil = new AccueilView(password);
         voletOnglet.addTab("Accueil",new ImageIcon("images"+File.separator+"commande.png"), ongletAccueil, null);
 
         //Ajout de l'onglet classJava.Fleur, permettant de gérer les fleurs disponible
-        ongletFleur = new FleurView();
+        ongletFleur = new FleurView(password);
         voletOnglet.addTab("Fleur",new ImageIcon("images"+ File.separator+"item.png"), ongletFleur, null);
 
         //Ajout de l'onglet classJava.Commande, permettant de gérer les commandes
-        ongletCommande = new CommandeView();
+        ongletCommande = new CommandeView(password);
         voletOnglet.addTab("Commande",new ImageIcon("images"+File.separator+"commande.png"), ongletCommande, null);
 
         ongletCommande.setBackground(new Color(9, 145, 143));
