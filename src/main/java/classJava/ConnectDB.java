@@ -11,7 +11,7 @@ public class ConnectDB {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Fleuriste", "postgres", password);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Erreur à la connexion : " + e);
         }
     }
     public Connection getConnection() {

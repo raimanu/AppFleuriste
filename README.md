@@ -1,24 +1,123 @@
 # AppFleuriste
 
-Pour se connecter à la base de donnée via POSTGESQL :
+Pour se connecter à la base de donnée via POSTGRESQL :
 
 - Ouvrir PgAdmin et ensuite ouvrir base de donnée nommer Fleuriste.
 - Créer la base de donnée et insérer les données si pas encore fait, avec le code suivant :
-- ```sql
-  DROP TABLE IF EXISTS Fleur CASCADE;
-  CREATE TABLE Fleur (nom text PRIMARY KEY, prix int, age int, dureeVie int, vivante BOOLEAN, quantite int);
-  Insert into Fleur (nom, prix, age, dureeVie, vivante, quantite) values
-  ('Rose', 2.5, 2, 5, true, 10),
-  ('Tulipe', 1.5, 1, 5, true, 10),
-  ('Lys', 3.5, 3, 5, true, 10),
-  ('Orchidée', 4.5, 4, 5, true, 10),
-  ('Marguerite', 5.5, 5, 5, true, 10);
-  ```
-- Entrer ensuite votre mot de passe dans la console après avoir lancé le main.
+```sql
+DROP TABLE FLEUR CASCADE;
+DROP TABLE COMPOSE CASCADE;
+DROP TABLE COMMANDE CASCADE;
+DROP TABLE CLIENT CASCADE;
+DROP TABLE FOURNISSEUR CASCADE;
+
+CREATE TABLE CLIENT (
+PRIMARY KEY (client_id),
+client_id SERIAL NOT NULL,
+nom TEXT,
+prenom TEXT,
+adresse TEXT
+);
+
+CREATE TABLE FOURNISSEUR (
+PRIMARY KEY (fournisseur_id),
+fournisseur_id SERIAL NOT NULL,
+nom TEXT,
+adresse TEXT
+);
+
+CREATE TABLE FLEUR (
+PRIMARY KEY (fleur_id),
+fleur_id SERIAL NOT NULL,
+nom TEXT,
+age FLOAT,
+duree_vie FLOAT,
+vivante BOOLEAN,
+prix_unitaire FLOAT,
+quantite INTEGER,
+fournisseur_id SERIAL NOT NULL,
+FOREIGN KEY (fournisseur_id) REFERENCES FOURNISSEUR (fournisseur_id)
+);
+
+CREATE TABLE COMMANDE (
+PRIMARY KEY (commande_id),
+commande_id SERIAL NOT NULL,
+date_commande DATE,
+montant_total FLOAT,
+client_id SERIAL NOT NULL,
+FOREIGN KEY (client_id) REFERENCES CLIENT (client_id)
+);
+
+CREATE TABLE COMPOSE (
+PRIMARY KEY (commande_id, fleur_id),
+commande_id SERIAL NOT NULL,
+fleur_id SERIAL NOT NULL,
+quantite FLOAT,
+FOREIGN KEY (commande_id) REFERENCES COMMANDE (commande_id),
+FOREIGN KEY (fleur_id) REFERENCES FLEUR (fleur_id)
+);
+
+
+ALTER TABLE COMPOSE ADD FOREIGN KEY (fleur_id) REFERENCES FLEUR (fleur_id);
+ALTER TABLE COMPOSE ADD FOREIGN KEY (commande_id) REFERENCES COMMANDE (commande_id);
+ALTER TABLE COMMANDE ADD FOREIGN KEY (client_id) REFERENCES CLIENT (client_id);
+ALTER TABLE FLEUR ADD FOREIGN KEY (fournisseur_id) REFERENCES FOURNISSEUR (fournisseur_id);
+
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DUPONT', 'Jean', '1 rue de la Paix');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DURAND', 'Pierre', '2 rue de la Paix');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DUPUIS', 'Paul', '3 rue de la Paix');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DURANT', 'Jacques', '4 rue de la Paix');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('PAIN', 'Robert', '3 rue de la Gloire');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('REMAT', 'Jean', '3 rue de la Gloire');
+INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('PURUT', 'Pierre', '3 rue de la Gloire');
+
+INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 1', '1 rue de la Paix');
+INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 2', '2 rue de la Paix');
+INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 3', '3 rue de la Paix');
+
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Rose', 1, 2, TRUE, 1, 10, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Tulipe', 1, 2, TRUE, 1, 10, 2);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Lys', 1, 2, TRUE, 1, 5, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Orchidée', 1, 2, TRUE, 1, 5, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 1, 2, TRUE, 1, 15, 2);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 2, TRUE, 1, 3, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 2, TRUE, 1, 5, 1);
+
+INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 1);
+
+INSERT INTO COMPOSE (commande_id, fleur_id, quantite) VALUES (1, 1, 1);
+
+INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 2);
+
+INSERT INTO COMPOSE (commande_id, fleur_id, quantite) VALUES (2, 2, 1);
+```
+- Entrer ensuite votre mot de passe dans la console après avoir lancé le Main.
 
 ---
 
+Ce que nous devrons faire :
+-
+
+Les outils que nous avons utilisés pour ce projet sont :
+-
+- Trello : ```https://trello.com/invite/b/VuLQQJi7/ATTIf3d5bce9894fbebf3c882027004a9ff816052C87/kanban-application-fleuriste```
+- Miro : ```https://miro.com/app/board/uXjVNZv4Xlk=/?share_link_id=706278503164```
+
+
+Le backlog de notre projet :
+-
+- Pouvoir ajouter, modifier et supprimer une commande (Fait ; À refaire)
+- Pouvoir ajouter, modifier et supprimer une fleur (Fait ; À refaire)
+- Pouvoir ajouter, modifier et supprimer un client (En cours)
+- Pouvoir ajouter, modifier et supprimer un fournisseur (En cours)
+- Pouvoir être notifié lorsqu'une fleur est en rupture de stock (À faire)
+- Pouvoir être notifié lorsqu'une fleur est en fin de vie (À faire)
+- Pouvoir voir les fleurs composant une commande dans une nouvelle fenêtre (À faire) 
+- Pouvoir voir les commandes d'un client dans une nouvelle fenêtre (À faire)
+- Pouvoir voir les fleurs d'un fournisseur dans une nouvelle fenêtre (À faire)
+
 TO DO LIST :
+- 
 - Faire les tests unitaires
 - Faire les tests d'intégration
 - Finir la base de donnée
@@ -27,8 +126,8 @@ TO DO LIST :
 - - Faire la view fleur
 - - Faire la view client
 - Lier le Type de fleur avec la durée de vie de celle çi
-- Penser coté perspective d'avenir du projet
-- Revoir le mcd
+- Penser aux évolutions du projet
+- Revoir le modèle conceptuel de donnée
 - Bien définir les contraintes pour les fleurs et les commandes etc
 
  
