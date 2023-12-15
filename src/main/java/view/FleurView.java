@@ -88,8 +88,8 @@ public class FleurView extends JPanel {
             }
         });
 
-        //création du bouton supprimer
-        JButton supprFleur = new JButton("Remove");
+        //création du bouton 'supprimer'
+        JButton supprFleur = new JButton("Supprimer");
         boiteVertical.add(supprFleur);
         supprFleur.addActionListener(new ActionListener() {
             @Override
@@ -104,7 +104,7 @@ public class FleurView extends JPanel {
             }
         });
 
-        //création du bouton modifier
+        //création du bouton 'modifier'
         JButton modifierProduit = new JButton("Modifier");
         boiteVertical.add(modifierProduit);
         modifierProduit.addActionListener(new ActionListener() {

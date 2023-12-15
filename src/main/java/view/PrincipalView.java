@@ -10,7 +10,7 @@ import java.io.File;
 
 public class PrincipalView extends JFrame {
     private static JTabbedPane voletOnglet;
-    private JPanel ongletAccueil, ongletFleur, ongletCommande;
+    private JPanel ongletAccueil, ongletFleur, ongletCommande, ongletClient, ongletFournisseur;
 
     public PrincipalView(String password) {
         this.setTitle("Gestion des commandes et du stock");
@@ -41,6 +41,14 @@ public class PrincipalView extends JFrame {
         voletOnglet.addTab("Commande",new ImageIcon("images"+File.separator+"commande.png"), ongletCommande, null);
 
         ongletCommande.setBackground(new Color(9, 145, 143));
+
+        //Ajout de l'onglet classJava.Client, permettant de gérer les clients
+        ongletClient = new ClientView(password);
+        voletOnglet.addTab("Client",new ImageIcon("images"+File.separator+"commande.png"), ongletClient, null);
+
+        //Ajout de l'onglet classJava.Fournisseur, permettant de gérer les fournisseurs
+        ongletFournisseur = new FournisseurView(password);
+        voletOnglet.addTab("Fournisseur",new ImageIcon("images"+File.separator+"commande.png"), ongletFournisseur, null);
 
         //Centrer la fenetre
         this.setLocationRelativeTo(null);

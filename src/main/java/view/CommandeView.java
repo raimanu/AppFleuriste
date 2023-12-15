@@ -53,7 +53,7 @@ public class CommandeView extends JPanel{
         //Ajout de la table dans le panel
         this.add(scrollPane);
 
-        //Création du bouton pour rajouter une fleur
+        //Création du bouton pour rajouter une commande
         ajouterCommande = new JButton("Ajouter");
         boiteVertical.add(ajouterCommande);
         ajouterCommande.addActionListener(new ActionListener() {
@@ -84,7 +84,7 @@ public class CommandeView extends JPanel{
         });
 
         //Création du bouton pour modifier une commande
-        modifierCommande = new JButton("Modifier");
+        modifierCommande = new JButton("Modifier une commande");
         boiteVertical.add(modifierCommande);
         modifierCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +103,7 @@ public class CommandeView extends JPanel{
         });
 
         //Création du bouton pour supprimer une commande
-        supprCommande = new JButton("Remove");
+        supprCommande = new JButton("Supprimer une commande");
         boiteVertical.add(supprCommande);
         supprCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

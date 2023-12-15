@@ -5,11 +5,11 @@ Pour se connecter à la base de donnée via POSTGRESQL :
 - Ouvrir PgAdmin et ensuite ouvrir base de donnée nommer Fleuriste.
 - Créer la base de donnée et insérer les données si pas encore fait, avec le code suivant :
 ```sql
-DROP TABLE FLEUR CASCADE;
-DROP TABLE COMPOSE CASCADE;
-DROP TABLE COMMANDE CASCADE;
-DROP TABLE CLIENT CASCADE;
-DROP TABLE FOURNISSEUR CASCADE;
+DROP TABLE IF EXISTS FLEUR CASCADE;
+DROP TABLE IF EXISTS COMPOSE CASCADE;
+DROP TABLE IF EXISTS COMMANDE CASCADE;
+DROP TABLE IF EXISTS CLIENT CASCADE;
+DROP TABLE IF EXISTS FOURNISSEUR CASCADE;
 
 CREATE TABLE CLIENT (
 PRIMARY KEY (client_id),
@@ -122,9 +122,10 @@ TO DO LIST :
 - Faire les tests d'intégration
 - Finir la base de donnée
 - Finir l'interface graphique
-- - Faire la view commande
-- - Faire la view fleur
-- - Faire la view client
+  - Faire la view commande
+  - Faire la view fleur
+  - Faire la view client
+  - Faire la view fournisseur
 - Lier le Type de fleur avec la durée de vie de celle çi
 - Penser aux évolutions du projet
 - Revoir le modèle conceptuel de donnée
