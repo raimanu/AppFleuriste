@@ -117,6 +117,23 @@ public class CommandeViewQueries {
         }
     }
 
+    public void confirmCommande(String commande_id){
+        try {
+            String requete_compose = "DELETE FROM compose WHERE commande_id = "+commande_id;
+            PreparedStatement preparedStatementCompose = connection.prepareStatement(requete_compose);
+            preparedStatementCompose.executeUpdate();
+            String requete_fleur = "DELETE FROM fleur WHERE quantite = 0 AND fleur_id NOT IN (SELECT fleur_id FROM compose WHERE commande_id != " + commande_id + ")";
+            PreparedStatement preparedStatementFleur = connection.prepareStatement(requete_fleur);
+            preparedStatementFleur.executeUpdate();
+            String requete = "DELETE FROM Commande WHERE commande_id = " + commande_id;
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la confirmation de la commande");
+            System.out.println(e +" Confirmer Commande");
+        }
+    }
+
     public boolean checkFleurQuantite(int quantite, int fleur_id){
         try {
             String requete_fleur_quantite = "SELECT quantite FROM fleur WHERE fleur_id = " + fleur_id;

@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class CommandeView extends JPanel{
     private static JTable table;
 
-    private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur;
+    private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur, confirmerCommande;
 
     String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
 
@@ -117,7 +117,23 @@ public class CommandeView extends JPanel{
                 }
             }
         });
+
+        confirmerCommande = new JButton("Confirmer la commande");
+        boiteVertical.add(confirmerCommande);
+        confirmerCommande.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1) {
+                    // Suppression de la ligne sélectionnée dans la base de donnée
+                    conn.confirmCommande(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    // Rafraichit la table pour afficher les nouvelles données
+                    resetTable();
+                    view.FleurView.resetTable();
+                    JOptionPane.showMessageDialog(null, "Commande confirmée !");
+                }
+            }
+        });
     }
+
 
     public void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();

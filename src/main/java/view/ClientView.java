@@ -13,6 +13,8 @@ public class ClientView extends JPanel {
     private static JTable table;
     public static ClientViewQueries conn;
 
+    public static JFrame ajoutFleur;
+
 
     public ClientView(String password) {
         conn = new ClientViewQueries(password);
@@ -63,11 +65,20 @@ public class ClientView extends JPanel {
         boiteVertical.add(supprClient);
         supprClient.addActionListener(e ->  {
             if(table.getSelectedRow() != -1){
-                int row = table.getSelectedRow();
-                String id = table.getModel().getValueAt(row, 0).toString();
-                conn.supprClient(id);
-                model.setRowCount(0);
-                conn.GetClientTable(model);
+                String[] idCommande;
+                idCommande = conn.GetClientCommande(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+                if (idCommande != null){
+                    JOptionPane.showMessageDialog(null, "Impossible de supprimer ce client car il a des commandes en cours", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    for (String s : idCommande) {
+                        JOptionPane.showMessageDialog(null, "Commande id : " + s, "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    int row = table.getSelectedRow();
+                    String id = table.getModel().getValueAt(row, 0).toString();
+                    conn.supprClient(id);
+                    model.setRowCount(0);
+                    conn.GetClientTable(model);
+                }
             }
         });
 
