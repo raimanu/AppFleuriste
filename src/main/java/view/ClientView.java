@@ -13,8 +13,6 @@ public class ClientView extends JPanel {
     private static JTable table;
     public static ClientViewQueries conn;
 
-    public static JFrame ajoutFleur;
-
 
     public ClientView(String password) {
         conn = new ClientViewQueries(password);
