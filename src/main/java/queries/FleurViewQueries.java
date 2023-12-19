@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Objects;
 
-import classJava.ConnectDB;
 
 public class FleurViewQueries {
     Connection connection = null;

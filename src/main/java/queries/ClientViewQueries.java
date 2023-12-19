@@ -1,11 +1,10 @@
 package queries;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.util.Objects;
+
 public class ClientViewQueries {
     Connection connection = null;
     public ClientViewQueries(String password) {
@@ -66,5 +65,21 @@ public class ClientViewQueries {
         } catch (Exception e) {
             System.out.println(e +" Modifier Client");
         }
+    }
+
+    //Fonction pour savoir si un client est lier a des commandes et savoir qu'elles sont les id des commandes
+    public String[] GetClientCommande(String id){
+        String[] tab = new String[1];
+        try {
+            String requete = "SELECT commande_id FROM commande WHERE client_id = '"+id+"'";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            while (resultSet.next()) {
+                tab[0] = resultSet.getString("commande_id");
+            }
+        } catch (Exception e) {
+            System.out.println(e +" Client Commande");
+        }
+        return tab;
     }
 }

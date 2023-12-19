@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLOutput;
 import java.util.Objects;
 public class CommandeViewQueries {
     Connection connection = null;
@@ -117,6 +116,23 @@ public class CommandeViewQueries {
         }
     }
 
+    public void confirmCommande(String commande_id){
+        try {
+            String requete_compose = "DELETE FROM compose WHERE commande_id = "+commande_id;
+            PreparedStatement preparedStatementCompose = connection.prepareStatement(requete_compose);
+            preparedStatementCompose.executeUpdate();
+            String requete_fleur = "DELETE FROM fleur WHERE quantite = 0 AND fleur_id NOT IN (SELECT fleur_id FROM compose WHERE commande_id != " + commande_id + ")";
+            PreparedStatement preparedStatementFleur = connection.prepareStatement(requete_fleur);
+            preparedStatementFleur.executeUpdate();
+            String requete = "DELETE FROM Commande WHERE commande_id = " + commande_id;
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la confirmation de la commande");
+            System.out.println(e +" Confirmer Commande");
+        }
+    }
+
     public boolean checkFleurQuantite(int quantite, int fleur_id){
         try {
             String requete_fleur_quantite = "SELECT quantite FROM fleur WHERE fleur_id = " + fleur_id;
@@ -150,5 +166,31 @@ public class CommandeViewQueries {
             System.out.println(e +" Vérifier Fleur Commande");
         }
         return false;
+    }
+
+    //Fonction pour avoir les fleurs d'une commande
+    public void GetCommandeFleur(String commande_id, DefaultTableModel model){
+        try {
+            String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            while (resultSet.next()) {
+                String vivante = resultSet.getString("vivante");
+                if (Objects.equals(vivante, "t")) vivante = "True";
+                else vivante = "False";
+                model.addRow(new Object[]{
+                        resultSet.getString("fleur_id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("age"),
+                        resultSet.getString("duree_vie"),
+                        resultSet.getString("prix_unitaire"),
+                        vivante,
+                        resultSet.getString("quantite"),
+                        resultSet.getString("fournisseur_id")
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

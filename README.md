@@ -132,3 +132,8 @@ TO DO LIST :
 - Bien définir les contraintes pour les fleurs et les commandes etc
 
  
+requete sql pour avoir les fleurs d'une commande :
+-
+```sql
+SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = 1);
+```

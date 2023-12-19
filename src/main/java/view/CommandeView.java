@@ -1,8 +1,7 @@
 package view;
 
 import queries.CommandeViewQueries;
-import queries.FleurViewQueries;
-import view.FleurView;
+import underView.CommandeFleurView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 public class CommandeView extends JPanel{
     private static JTable table;
 
-    private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur;
+    private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur, confirmerCommande, voirFleurs;
 
     String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
 
@@ -117,7 +116,42 @@ public class CommandeView extends JPanel{
                 }
             }
         });
+
+        confirmerCommande = new JButton("Confirmer la commande");
+        boiteVertical.add(confirmerCommande);
+        confirmerCommande.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1) {
+                    // Suppression de la ligne sélectionnée dans la base de donnée
+                    conn.confirmCommande(table.getValueAt(table.getSelectedRow(), 0).toString());
+                    // Rafraichit la table pour afficher les nouvelles données
+                    resetTable();
+                    view.FleurView.resetTable();
+                    JOptionPane.showMessageDialog(null, "Commande confirmée !");
+                }
+            }
+        });
+
+        //Création du bouton pour voir les fleurs d'une commande selectionnée dans un nouveau panel
+        voirFleurs = new JButton("Voir les fleurs");
+        boiteVertical.add(voirFleurs);
+        voirFleurs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1) {
+                    String commande_id = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    JFrame frame = new JFrame("Fleurs de la commande " + commande_id);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(800, 600);
+                    frame.setLocationRelativeTo(null);
+                    frame.setResizable(false);
+                    frame.setContentPane(new CommandeFleurView(password, commande_id));
+                    frame.setVisible(true);
+                }
+            }
+        });
+
     }
+
 
     public void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();

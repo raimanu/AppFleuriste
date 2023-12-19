@@ -1,6 +1,5 @@
 package view;
 
-import classJava.ConnectDB;
 import queries.FleurViewQueries;
 
 import java.awt.BorderLayout;
