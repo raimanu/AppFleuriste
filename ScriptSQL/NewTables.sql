@@ -1,53 +1,53 @@
-DROP TABLE FLEUR CASCADE;
-DROP TABLE COMPOSE CASCADE;
-DROP TABLE COMMANDE CASCADE;
-DROP TABLE CLIENT CASCADE;
-DROP TABLE FOURNISSEUR CASCADE;
+DROP TABLE IF EXISTS FLEUR CASCADE;
+DROP TABLE IF EXISTS COMPOSE CASCADE;
+DROP TABLE IF EXISTS COMMANDE CASCADE;
+DROP TABLE IF EXISTS CLIENT CASCADE;
+DROP TABLE IF EXISTS FOURNISSEUR CASCADE;
 
 CREATE TABLE CLIENT (
-  PRIMARY KEY (client_id),
-  client_id SERIAL NOT NULL,
-  nom TEXT,
-  prenom TEXT,
-  adresse TEXT
+PRIMARY KEY (client_id),
+client_id SERIAL NOT NULL,
+nom TEXT,
+prenom TEXT,
+adresse TEXT
 );
 
 CREATE TABLE FOURNISSEUR (
-  PRIMARY KEY (fournisseur_id),
-  fournisseur_id SERIAL NOT NULL,
-  nom TEXT,
-  adresse TEXT
+PRIMARY KEY (fournisseur_id),
+fournisseur_id SERIAL NOT NULL,
+nom TEXT,
+adresse TEXT
 );
 
 CREATE TABLE FLEUR (
-  PRIMARY KEY (fleur_id),
-  fleur_id SERIAL NOT NULL,
-  nom TEXT,
-  age FLOAT,
-  duree_vie FLOAT,
-  vivante BOOLEAN,
-  prix_unitaire FLOAT,
-  quantite INTEGER,
-  fournisseur_id SERIAL NOT NULL,
-  FOREIGN KEY (fournisseur_id) REFERENCES FOURNISSEUR (fournisseur_id)
+PRIMARY KEY (fleur_id),
+fleur_id SERIAL NOT NULL,
+nom TEXT,
+age FLOAT,
+duree_vie FLOAT,
+vivante BOOLEAN,
+prix_unitaire FLOAT,
+quantite INTEGER,
+fournisseur_id SERIAL NOT NULL,
+FOREIGN KEY (fournisseur_id) REFERENCES FOURNISSEUR (fournisseur_id)
 );
 
 CREATE TABLE COMMANDE (
-  PRIMARY KEY (commande_id),
-  commande_id SERIAL NOT NULL,
-  date_commande DATE,
-  montant_total FLOAT,
-  client_id SERIAL NOT NULL,
-  FOREIGN KEY (client_id) REFERENCES CLIENT (client_id)
+PRIMARY KEY (commande_id),
+commande_id SERIAL NOT NULL,
+date_commande DATE,
+montant_total FLOAT,
+client_id SERIAL NOT NULL,
+FOREIGN KEY (client_id) REFERENCES CLIENT (client_id)
 );
 
 CREATE TABLE COMPOSE (
-  PRIMARY KEY (commande_id, fleur_id),
-  commande_id SERIAL NOT NULL,
-  fleur_id SERIAL NOT NULL,
-  quantite FLOAT,
-  FOREIGN KEY (commande_id) REFERENCES COMMANDE (commande_id),
-  FOREIGN KEY (fleur_id) REFERENCES FLEUR (fleur_id)
+PRIMARY KEY (commande_id, fleur_id),
+commande_id SERIAL NOT NULL,
+fleur_id SERIAL NOT NULL,
+quantite FLOAT,
+FOREIGN KEY (commande_id) REFERENCES COMMANDE (commande_id),
+FOREIGN KEY (fleur_id) REFERENCES FLEUR (fleur_id)
 );
 
 
@@ -56,9 +56,6 @@ ALTER TABLE COMPOSE ADD FOREIGN KEY (commande_id) REFERENCES COMMANDE (commande_
 ALTER TABLE COMMANDE ADD FOREIGN KEY (client_id) REFERENCES CLIENT (client_id);
 ALTER TABLE FLEUR ADD FOREIGN KEY (fournisseur_id) REFERENCES FOURNISSEUR (fournisseur_id);
 
-----------------------
--- Donnée à insérer --
-----------------------
 INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DUPONT', 'Jean', '1 rue de la Paix');
 INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DURAND', 'Pierre', '2 rue de la Paix');
 INSERT INTO CLIENT (nom, prenom, adresse) VALUES ('DUPUIS', 'Paul', '3 rue de la Paix');

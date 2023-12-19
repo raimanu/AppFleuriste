@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLOutput;
 import java.util.Objects;
 public class CommandeViewQueries {
     Connection connection = null;
@@ -167,5 +166,31 @@ public class CommandeViewQueries {
             System.out.println(e +" Vérifier Fleur Commande");
         }
         return false;
+    }
+
+    //Fonction pour avoir les fleurs d'une commande
+    public void GetCommandeFleur(String commande_id, DefaultTableModel model){
+        try {
+            String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            while (resultSet.next()) {
+                String vivante = resultSet.getString("vivante");
+                if (Objects.equals(vivante, "t")) vivante = "True";
+                else vivante = "False";
+                model.addRow(new Object[]{
+                        resultSet.getString("fleur_id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("age"),
+                        resultSet.getString("duree_vie"),
+                        resultSet.getString("prix_unitaire"),
+                        vivante,
+                        resultSet.getString("quantite"),
+                        resultSet.getString("fournisseur_id")
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
