@@ -1,28 +1,26 @@
 package underView;
 
-import queries.CommandeViewQueries;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import queries.AlerteFleurFanerQueries;
 
-public class CommandeFleurView extends JPanel {
+public class AlerteFleurFanerView extends JPanel {
+    private static JTable table;
     String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
-    JTable table;
-    public static CommandeViewQueries conn;
-    public CommandeFleurView(String password, String commande_id) {
-        conn = new CommandeViewQueries(password);
+
+    public static AlerteFleurFanerQueries conn;
+
+    public AlerteFleurFanerView(String password) {
+        conn = new AlerteFleurFanerQueries(password);
         //Creation du panel principale
+        JPanel panel = new JPanel();
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));
 
-        //Creation panel de gauche pour mettre les boutons
-        JPanel panel = new JPanel();
-        this.add(panel, BorderLayout.WEST);
-
         //Creation d'une boite pour insérer les boutons
         Box boiteVertical = Box.createVerticalBox();
-        panel.add(boiteVertical);
+        this.add(boiteVertical);
 
         //Initialisation de la table
         table = new JTable();
@@ -34,11 +32,15 @@ public class CommandeFleurView extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.createVerticalScrollBar();
         //Ajout des données de la base de donnée dans la table
-        conn.GetCommandeFleur(commande_id,model);
+        conn.GetAlerteFleurFaner(model);
         this.add(scrollPane);
         //Ajout de la possibilité de selectionner une ligne et une case de la table
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         //Ajout de la table dans le panel
         this.add(scrollPane);
+    }
+
+    public DefaultTableModel getModel() {
+    	return (DefaultTableModel) table.getModel();
     }
 }

@@ -1,17 +1,18 @@
 package underView;
 
-import queries.CommandeViewQueries;
+import queries.ClientViewQueries;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+public class ClientCommandeView extends JPanel {
+    private static JTable table;
+    String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
 
-public class CommandeFleurView extends JPanel {
-    String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
-    JTable table;
-    public static CommandeViewQueries conn;
-    public CommandeFleurView(String password, String commande_id) {
-        conn = new CommandeViewQueries(password);
+    public static ClientViewQueries conn;
+
+    public ClientCommandeView(String password, String client_id) {
+        conn = new ClientViewQueries(password);
         //Creation du panel principale
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));
@@ -34,11 +35,12 @@ public class CommandeFleurView extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.createVerticalScrollBar();
         //Ajout des données de la base de donnée dans la table
-        conn.GetCommandeFleur(commande_id,model);
+        conn.TableClientCommande(client_id,model);
         this.add(scrollPane);
         //Ajout de la possibilité de selectionner une ligne et une case de la table
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         //Ajout de la table dans le panel
         this.add(scrollPane);
     }
+
 }

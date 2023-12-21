@@ -1,14 +1,12 @@
 package view;
 
 import queries.ClientViewQueries;
+import underView.ClientCommandeView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 public class ClientView extends JPanel {
     private static JTable table;
     public static ClientViewQueries conn;
@@ -92,6 +90,21 @@ public class ClientView extends JPanel {
                 conn.modifClient(nomColonne, valeur, clePrim);
                 model.setRowCount(0);
                 conn.GetClientTable(model);
+            }
+        });
+
+        //Création du bouton pour afficher les commandes d'un client
+        JButton afficherCommande = new JButton("Afficher les commandes");
+        boiteVertical.add(afficherCommande);
+        afficherCommande.addActionListener(e -> {
+            if(table.getSelectedRow() != -1){
+                String id = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
+                JFrame frame = new JFrame("Commande du client " + id);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(800, 600);
+                frame.setLocationRelativeTo(null);
+                frame.setContentPane(new ClientCommandeView(password, id));
+                frame.setVisible(true);
             }
         });
     }

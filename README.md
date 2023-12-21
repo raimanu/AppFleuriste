@@ -75,13 +75,13 @@ INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 1', '1 rue de la Pai
 INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 2', '2 rue de la Paix');
 INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 3', '3 rue de la Paix');
 
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Rose', 1, 2, TRUE, 1, 10, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Rose', 3, 5, TRUE, 1, 10, 1);
 INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Tulipe', 1, 2, TRUE, 1, 10, 2);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Lys', 1, 2, TRUE, 1, 5, 3);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Orchidée', 1, 2, TRUE, 1, 5, 1);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 1, 2, TRUE, 1, 15, 2);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 2, TRUE, 1, 3, 3);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 2, TRUE, 1, 5, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Lys', 10, 20, TRUE, 1, 5, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Orchidée', 13, 15, TRUE, 1, 5, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 10, 15, TRUE, 1, 15, 2);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 20, TRUE, 1, 3, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 20, TRUE, 1, 5, 1);
 
 INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 1);
 
@@ -136,4 +136,10 @@ requete sql pour avoir les fleurs d'une commande :
 -
 ```sql
 SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = 1);
+```
+
+requete sql pour avoir les fleurs qui sont a moins de 3 jours par rapport a la durée de vie moins l'age :
+-
+```sql
+SELECT * FROM FLEUR WHERE duree_vie - age <= 7;
 ```

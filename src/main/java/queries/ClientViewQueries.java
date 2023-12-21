@@ -82,4 +82,22 @@ public class ClientViewQueries {
         }
         return tab;
     }
+
+    public void TableClientCommande(String id, DefaultTableModel model){
+        try {
+            String requete = "SELECT * FROM commande WHERE client_id = '"+id+"'";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            while (resultSet.next()) {
+                model.addRow(new Object[]{
+                        resultSet.getString("commande_id"),
+                        resultSet.getString("date_commande"),
+                        resultSet.getString("montant_total"),
+                        resultSet.getString("client_id")
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e +" Table Client Commande");
+        }
+    }
 }
