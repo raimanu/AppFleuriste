@@ -14,6 +14,10 @@ public class PrincipalView extends JFrame {
 
     AlerteFleurFanerView alerte;
 
+    /**
+     * Constructeur de la classe PrincipalView
+     * @param password mot de passe de la base de données
+     */
     public PrincipalView(String password) {
         this.setTitle("Gestion des commandes et du stock");
 

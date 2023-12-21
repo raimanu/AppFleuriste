@@ -23,6 +23,11 @@ public class FleurView extends JPanel {
 
     String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Vivante", "Quantité", "Fournisseur Id"};
     public static FleurViewQueries conn;
+
+    /**
+     * Constructeur de la classe FleurView
+     * @param password mot de passe de la base de données
+     */
     public FleurView(String password)
     {
         conn = new FleurViewQueries(password);
@@ -134,6 +139,9 @@ public class FleurView extends JPanel {
         });
     }
 
+    /**
+     * Méthode qui permet de rafraichir la table
+     */
     public static void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);

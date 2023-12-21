@@ -7,6 +7,11 @@ import java.sql.PreparedStatement;
 
 public class ClientViewQueries {
     Connection connection = null;
+
+    /**
+     * Constructeur de la classe ClientViewQueries
+     * @param password  Le mot de passe pour se connecter à la base de données
+     */
     public ClientViewQueries(String password) {
         try {
             Class.forName("org.postgresql.Driver");
@@ -15,6 +20,11 @@ public class ClientViewQueries {
             System.out.println(e);
         }
     }
+
+    /**
+     * Méthode qui permet de récupérer les clients
+     * @param model modèle de la table
+     */
     public void GetClientTable(DefaultTableModel model){
         try {
             String requete = "SELECT * FROM client ORDER BY client_id ASC;";
@@ -33,6 +43,12 @@ public class ClientViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet d'ajouter un client
+     * @param nom       Le nom du client
+     * @param prenom    Le prénom du client
+     * @param adresse   L'adresse du client
+     */
     public void ajoutClient(String nom, String prenom, String adresse){
         try {
             String requete = "INSERT INTO client (nom, prenom, adresse) VALUES ('"+nom+"', '"+prenom+"', '"+adresse+"')";
@@ -43,7 +59,10 @@ public class ClientViewQueries {
         }
     }
 
-    //Fonction pour supprimer un client et les commandes qui lui sont associées
+    /**
+     * Méthode qui permet de supprimer un client
+     * @param id    L'id du client
+     */
     public void supprClient(String id){
         try {
             String requete = "DELETE FROM commande WHERE client_id = '"+id+"'";
@@ -57,6 +76,12 @@ public class ClientViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de modifier un client par rapport à la colonne selectionnée
+     * @param nomColonne    Le nom de la colonne à modifier
+     * @param valeur        La valeur à modifier
+     * @param clePrim       La clé primaire du client
+     */
     public void modifClient(String nomColonne, String valeur, String clePrim){
         try {
             String requete = "UPDATE client SET "+nomColonne+" = '"+valeur+"' WHERE client_id = '"+clePrim+"'";
@@ -67,7 +92,11 @@ public class ClientViewQueries {
         }
     }
 
-    //Fonction pour savoir si un client est lier a des commandes et savoir qu'elles sont les id des commandes
+    /**
+     * Méthode qui permet de savoir si un client est lié à des commandes et de récupérer les id des commandes
+     * @param id    L'id du client
+     * @return String[] Un tableau contenant les id des commandes
+     */
     public String[] GetClientCommande(String id){
         String[] tab = new String[1];
         try {
@@ -83,6 +112,11 @@ public class ClientViewQueries {
         return tab;
     }
 
+    /**
+     * Méthode qui permet de récupérer les commandes d'un client
+     * @param id    L'id du client
+     * @param model modèle de la table
+     */
     public void TableClientCommande(String id, DefaultTableModel model){
         try {
             String requete = "SELECT * FROM commande WHERE client_id = '"+id+"'";

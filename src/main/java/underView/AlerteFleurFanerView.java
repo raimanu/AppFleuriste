@@ -11,6 +11,10 @@ public class AlerteFleurFanerView extends JPanel {
 
     public static AlerteFleurFanerQueries conn;
 
+    /**
+     * Constructeur de la classe AlerteFleurFanerView
+     * @param password mot de passe de la base de données
+     */
     public AlerteFleurFanerView(String password) {
         conn = new AlerteFleurFanerQueries(password);
         //Creation du panel principale
@@ -39,6 +43,10 @@ public class AlerteFleurFanerView extends JPanel {
         this.add(scrollPane);
     }
 
+    /**
+     * Méthode qui permet de récupérer la table
+     * @return JTable
+     */
     public DefaultTableModel getModel() {
     	return (DefaultTableModel) table.getModel();
     }

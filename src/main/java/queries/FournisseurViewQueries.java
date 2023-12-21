@@ -8,7 +8,12 @@ import java.sql.PreparedStatement;
 import java.util.Objects;
 
 public class FournisseurViewQueries {
-Connection connection = null;
+    Connection connection = null;
+
+    /**
+     * Constructeur de la classe FournisseurViewQueries
+     * @param password mot de passe de la base de données
+     */
     public FournisseurViewQueries(String password) {
         try {
             Class.forName("org.postgresql.Driver");
@@ -17,6 +22,11 @@ Connection connection = null;
             System.out.println(e);
         }
     }
+
+    /**
+     * Méthode qui permet de récupérer les fournisseurs et les ajoutes dans le modèle de la table
+     * @param model modèle de la table
+     */
     public void GetFournisseurTable(DefaultTableModel model){
         try {
             String requete = "SELECT * FROM fournisseur ORDER BY fournisseur_id ASC;";
@@ -34,6 +44,11 @@ Connection connection = null;
         }
     }
 
+    /**
+     * Méthode qui permet d'ajouter un fournisseur
+     * @param nom       Le nom du fournisseur
+     * @param adresse   L'adresse du fournisseur
+     */
     public void ajoutFournisseur(String nom, String adresse){
         try {
             String requete = "INSERT INTO fournisseur (nom, adresse) VALUES ('"+nom+"', '"+adresse+"')";
@@ -44,7 +59,10 @@ Connection connection = null;
         }
     }
 
-    //Fonction pour supprimer un fournisseur et les fleurs qui lui sont associées
+    /**
+     * Méthode qui permet de supprimer un fournisseur et les fleurs qui lui sont associées
+     * @param id    L'id du fournisseur
+     */
     public void supprFournisseur(String id){
         try {
             String requete = "DELETE FROM fleur WHERE fournisseur_id = '"+id+"'";
@@ -58,6 +76,12 @@ Connection connection = null;
         }
     }
 
+    /**
+     * Méthode qui permet de modifier un fournisseur
+     * @param nomColonne    Le nom de la colonne à modifier
+     * @param valeur        La valeur à modifier
+     * @param clePrim       La clé primaire du fournisseur
+     */
     public void modifFournisseur(String nomColonne, String valeur, String clePrim){
         try {
             String requete = "UPDATE fournisseur SET "+nomColonne+" = '"+valeur+"' WHERE fournisseur_id = '"+clePrim+"'";

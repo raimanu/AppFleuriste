@@ -10,6 +10,12 @@ public class CommandeFleurView extends JPanel {
     String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
     JTable table;
     public static CommandeViewQueries conn;
+
+    /**
+     * Constructeur de la classe CommandeFleurView
+     * @param password mot de passe de la base de données
+     * @param commande_id id de la commande
+     */
     public CommandeFleurView(String password, String commande_id) {
         conn = new CommandeViewQueries(password);
         //Creation du panel principale

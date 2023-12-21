@@ -9,6 +9,10 @@ import java.util.Objects;
 public class CommandeViewQueries {
     Connection connection = null;
 
+    /**
+     * Constructeur de la classe CommandeViewQueries
+     * @param password mot de passe de la base de données
+     */
     public CommandeViewQueries(String password) {
         try {
             Class.forName("org.postgresql.Driver");
@@ -17,6 +21,11 @@ public class CommandeViewQueries {
             System.out.println(e);
         }
     }
+
+    /**
+     * Méthode qui permet de récupérer les commandes
+     * @param model modèle de la table
+     */
     public void GetCommandeTable(DefaultTableModel model){
         try {
             String requete = "SELECT * FROM commande ORDER BY commande_id ASC;";
@@ -35,6 +44,11 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet d'ajouter une commande
+     * @param date      La date de la commande
+     * @param client_id L'id du client
+     */
     public void ajoutCommande(String date, int client_id){
         try {
             String requete = "INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('"+date+"', 0, "+client_id+")";
@@ -46,6 +60,10 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de supprimer une commande
+     * @param id L'id de la commande
+     */
     public void supprCommande(String id){
         try {
             String select_compose = "SELECT * FROM compose WHERE commande_id = " + id;
@@ -71,6 +89,12 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de modifier une commande par rapport à la colonne selectionnée
+     * @param nomColonne    Le nom de la colonne à modifier
+     * @param valeur        La valeur à modifier
+     * @param clePrim       La clé primaire de la commande
+     */
     public void modifCommande(String nomColonne, String valeur, String clePrim){
         try {
             if (nomColonne.equals("Prix Total")) nomColonne = "montant_total";
@@ -86,6 +110,12 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet d'ajouter une fleur à une commande
+     * @param commande_id   L'id de la commande
+     * @param fleur_id      L'id de la fleur
+     * @param quantite      La quantité de fleur
+     */
     public void ajoutFleurCommande(int commande_id, int fleur_id, int quantite){
         try {
             if(checkComposeExist(commande_id, fleur_id)) {
@@ -116,6 +146,10 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de confirmer une commande (supprimer la commande et les fleurs qui ne sont plus dans aucune commande avec 0 quantité)
+     * @param commande_id   L'id de la commande
+     */
     public void confirmCommande(String commande_id){
         try {
             String requete_compose = "DELETE FROM compose WHERE commande_id = "+commande_id;
@@ -133,6 +167,11 @@ public class CommandeViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet savoir s'il y a assez de fleur pour la commande
+     * @param quantite      La quantité de fleure
+     * @param fleur_id      L'id de la fleur
+     */
     public boolean checkFleurQuantite(int quantite, int fleur_id){
         try {
             String requete_fleur_quantite = "SELECT quantite FROM fleur WHERE fleur_id = " + fleur_id;
@@ -153,6 +192,12 @@ public class CommandeViewQueries {
         return true;
     }
 
+    /**
+     * Méthode qui permet de vérifier si une fleur est déjà dans une commande
+     * @param commande_id   L'id de la commande
+     * @param fleur_id      L'id de la fleur
+     * @return boolean
+     */
     public boolean checkComposeExist(int commande_id, int fleur_id){
         try {
             String requete_compose = "SELECT * FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id;
@@ -168,7 +213,11 @@ public class CommandeViewQueries {
         return false;
     }
 
-    //Fonction pour avoir les fleurs d'une commande
+    /**
+     * Méthode qui permet de récupérer les fleurs d'une commande
+     * @param commande_id   L'id de la commande
+     * @param model         Le modèle de la table
+     */
     public void GetCommandeFleur(String commande_id, DefaultTableModel model){
         try {
             String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";

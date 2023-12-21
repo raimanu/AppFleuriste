@@ -10,6 +10,11 @@ import java.util.Objects;
 
 public class FleurViewQueries {
     Connection connection = null;
+
+    /**
+     * Constructeur de la classe FleurViewQueries
+     * @param password mot de passe de la base de données
+     */
     public FleurViewQueries(String password) {
         try {
             Class.forName("org.postgresql.Driver");
@@ -18,6 +23,11 @@ public class FleurViewQueries {
             System.out.println(e);
         }
     }
+
+    /**
+     * Méthode qui permet de récupérer les fleurs
+     * @param model modèle de la table
+     */
     public void GetFleurTable(DefaultTableModel model){
         try {
             String vivante;
@@ -44,6 +54,15 @@ public class FleurViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet d'ajouter une fleur
+     * @param nom           Le nom de la fleur
+     * @param age           L'âge de la fleur
+     * @param dureeVie      La durée de vie de la fleur
+     * @param prix          Le prix de la fleur
+     * @param quantite      La quantité de la fleur
+     * @param fournisseur_id    L'id du fournisseur de la fleur
+     */
     public void ajoutFleur(String nom, float age, float dureeVie, float prix, int quantite, int fournisseur_id){
         try {
             String requete = "INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('"+nom+"', "+age+", "+dureeVie+", true, "+prix+", "+quantite+", "+fournisseur_id+")";
@@ -54,6 +73,10 @@ public class FleurViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de supprimer une fleur
+     * @param id    L'id de la fleur
+     */
     public void supprFleur(String id){
         try {
             String requete = "DELETE FROM fleur WHERE fleur_id = '"+id+"'";
@@ -64,6 +87,12 @@ public class FleurViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de modifier une fleur par rapport à la colonne sélectionnée
+     * @param nomColonne    Le nom de la colonne à modifier
+     * @param valeur        La valeur à modifier
+     * @param clePrim       La clé primaire de la fleur
+     */
     public void modifFleur(String nomColonne, String valeur, String clePrim){
         try {
             String requete;
@@ -86,6 +115,11 @@ public class FleurViewQueries {
         }
     }
 
+    /**
+     * Méthode qui permet de savoir si une valeur est un entier
+     * @param valeur    La valeur à tester
+     * @return boolean
+     */
     public boolean isInt(String valeur){
         try {
             Integer.parseInt(valeur);

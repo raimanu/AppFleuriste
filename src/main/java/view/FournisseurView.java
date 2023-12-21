@@ -14,6 +14,10 @@ public class FournisseurView extends JPanel{
     private static JTable table;
     public static FournisseurViewQueries conn;
 
+    /**
+     * Constructeur de la classe FournisseurView
+     * @param password mot de passe de la base de données
+     */
     public FournisseurView(String password) {
         conn = new FournisseurViewQueries(password);
         //Creation du panel principale

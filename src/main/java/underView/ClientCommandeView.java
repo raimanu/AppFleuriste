@@ -11,6 +11,11 @@ public class ClientCommandeView extends JPanel {
 
     public static ClientViewQueries conn;
 
+    /**
+     * Constructeur de la classe ClientCommandeView
+     * @param password mot de passe de la base de données
+     * @param client_id id du client
+     */
     public ClientCommandeView(String password, String client_id) {
         conn = new ClientViewQueries(password);
         //Creation du panel principale

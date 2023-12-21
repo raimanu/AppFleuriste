@@ -21,6 +21,10 @@ public class CommandeView extends JPanel{
 
     public CommandeViewQueries conn;
 
+    /**
+     * Constructeur de la classe CommandeView
+     * @param password mot de passe de la base de données
+     */
     public CommandeView(String password) {
         conn = new CommandeViewQueries(password);
         //Creation du panel principale
@@ -68,6 +72,7 @@ public class CommandeView extends JPanel{
         //Création du bouton pour ajouter une fleur à la commande
         ajouterFleur = new JButton("Ajouter une fleur");
         boiteVertical.add(ajouterFleur);
+
         ajouterFleur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(table.getSelectedRow() != -1){
@@ -117,6 +122,7 @@ public class CommandeView extends JPanel{
             }
         });
 
+        //Création du bouton pour supprimer une fleur d'une commande
         confirmerCommande = new JButton("Confirmer la commande");
         boiteVertical.add(confirmerCommande);
         confirmerCommande.addActionListener(new ActionListener() {
@@ -152,7 +158,10 @@ public class CommandeView extends JPanel{
 
     }
 
-
+    /**
+     * Méthode qui permet de récupérer la table
+     * @return JTable
+     */
     public void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
