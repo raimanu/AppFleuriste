@@ -53,7 +53,7 @@ public class CommandeView extends JPanel{
         this.add(scrollPane);
 
         //Création du bouton pour rajouter une commande
-        ajouterCommande = new JButton("Ajouter");
+        ajouterCommande = new JButton("Ajouter une commande");
         boiteVertical.add(ajouterCommande);
         ajouterCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

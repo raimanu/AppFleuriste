@@ -7,14 +7,13 @@ import queries.AlerteFleurFanerQueries;
 
 public class AlerteFleurFanerView extends JPanel {
     private static JTable table;
-    String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
+    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Vivante", "Quantité", "Fournisseur Id"};
 
     public static AlerteFleurFanerQueries conn;
 
     public AlerteFleurFanerView(String password) {
         conn = new AlerteFleurFanerQueries(password);
         //Creation du panel principale
-        JPanel panel = new JPanel();
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(new Color(78, 160, 164));
 

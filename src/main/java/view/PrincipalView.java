@@ -1,9 +1,9 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
+import queries.AlerteFleurFanerQueries;
+import underView.AlerteFleurFanerView;
+
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
@@ -11,6 +11,8 @@ import java.io.File;
 public class PrincipalView extends JFrame {
     private static JTabbedPane voletOnglet;
     private JPanel ongletAccueil, ongletFleur, ongletCommande, ongletClient, ongletFournisseur;
+
+    AlerteFleurFanerView alerte;
 
     public PrincipalView(String password) {
         this.setTitle("Gestion des commandes et du stock");
@@ -21,6 +23,30 @@ public class PrincipalView extends JFrame {
 
         this.getContentPane().setLayout(new BorderLayout(0, 0));
 
+        alerte = new AlerteFleurFanerView(password);
+        //Création du panel principale
+        this.setLayout(new BorderLayout(0, 0));
+        this.setBackground(new Color(78, 160, 164));
+
+        AlerteFleurFanerQueries conn = new AlerteFleurFanerQueries(password);
+        boolean AlerteFleurFaner = conn.GetAlerteFleurFaner(alerte.getModel());
+
+        //Création panel de gauche pour mettre les boutons
+        JPanel panel = new JPanel();
+        this.add(panel, BorderLayout.WEST);
+
+        //Création boite verticale pour inserer les composants du panel de gauche
+        Box verticalBox = Box.createVerticalBox();
+        panel.add(verticalBox);
+
+        if(AlerteFleurFaner){
+            JFrame frame = new JFrame("Fleurs fanant dans moins d'une semaine");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setContentPane(new AlerteFleurFanerView(password));
+            frame.pack();
+            frame.setVisible(true);
+        };
+
         voletOnglet = new JTabbedPane(JTabbedPane.TOP);
         this.getContentPane().add(voletOnglet);
 
@@ -28,9 +54,6 @@ public class PrincipalView extends JFrame {
         voletOnglet.setBackground(new Color(9, 145, 143));
         voletOnglet.setForeground(Color.BLACK);
 
-        //Ajout de l'onglet Acceuil
-        ongletAccueil = new AccueilView(password);
-        voletOnglet.addTab("Accueil",new ImageIcon("images"+File.separator+"commande.png"), ongletAccueil, null);
 
         //Ajout de l'onglet classJava.Fleur, permettant de gérer les fleurs disponible
         ongletFleur = new FleurView(password);
