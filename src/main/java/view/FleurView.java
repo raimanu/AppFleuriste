@@ -1,18 +1,15 @@
 package view;
 
 import queries.FleurViewQueries;
+import underView.ClientCommandeView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 //Javadoc de la class FleurView
 /**
@@ -49,6 +46,9 @@ public class FleurView extends JPanel {
         //Initialisation du model
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
         table.setModel(model);
+        //Ajout de la possibilité de trier les données de la table
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) table.getModel());
+        table.setRowSorter(sorter);
         //Ajout de la table dans un scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.createVerticalScrollBar();

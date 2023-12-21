@@ -2,9 +2,11 @@ package view;
 
 import queries.ClientViewQueries;
 import queries.FournisseurViewQueries;
+import underView.FournisseurFleurView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
@@ -39,6 +41,9 @@ public class FournisseurView extends JPanel{
         String[] colonne = {"Id","Nom","Adresse"};
         DefaultTableModel model = new DefaultTableModel(colonne, 0);
         table.setModel(model);
+        //Ajout de la possibilité de trier les données de la table
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) table.getModel());
+        table.setRowSorter(sorter);
         //Ajout de la table dans un scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.createVerticalScrollBar();
@@ -90,6 +95,22 @@ public class FournisseurView extends JPanel{
                 conn.modifFournisseur(nomColonne, valeur, id);
                 model.setRowCount(0);
                 conn.GetFournisseurTable(model);
+            }
+        });
+
+        //Création du bouton pour voir les fleurs d'un fournisseur
+        JButton fleursFournisseur = new JButton("Voir les fleurs");
+        boiteVertical.add(fleursFournisseur);
+        fleursFournisseur.addActionListener(e -> {
+            if(table.getSelectedRow() != -1){
+                int row = table.getSelectedRow();
+                String id = table.getModel().getValueAt(row, 0).toString();
+                JFrame frame = new JFrame("Fleurs du fournisseur " + id);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(800, 600);
+                frame.setLocationRelativeTo(null);
+                frame.setContentPane(new FournisseurFleurView(password, id));
+                frame.setVisible(true);
             }
         });
         }

@@ -90,6 +90,26 @@ public class FournisseurViewQueries {
         } catch (Exception e) {
             System.out.println(e +" Modifier Fournisseur");
         }
+    }
 
+    public void GetFournisseurFleur(String id, DefaultTableModel model){
+        try {
+            String requete = "SELECT * FROM fleur WHERE fournisseur_id = '"+id+"'";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            while (resultSet.next()) {
+                model.addRow(new Object[]{
+                        resultSet.getString("fleur_id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("age"),
+                        resultSet.getString("duree_vie"),
+                        resultSet.getString("prix_unitaire"),
+                        resultSet.getString("quantite"),
+                        resultSet.getString("fournisseur_id")
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
