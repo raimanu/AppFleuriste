@@ -41,7 +41,6 @@ Connection connection = null;
                         resultSet.getString("nom"),
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
-                        resultSet.getString("vivante"),
                         resultSet.getString("prix_unitaire"),
                         resultSet.getString("quantite"),
                         resultSet.getString("fournisseur_id")

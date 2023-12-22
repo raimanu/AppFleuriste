@@ -224,16 +224,12 @@ public class CommandeViewQueries {
             java.sql.Statement statement = connection.createStatement();
             java.sql.ResultSet resultSet = statement.executeQuery(requete);
             while (resultSet.next()) {
-                String vivante = resultSet.getString("vivante");
-                if (Objects.equals(vivante, "t")) vivante = "True";
-                else vivante = "False";
                 model.addRow(new Object[]{
                         resultSet.getString("fleur_id"),
                         resultSet.getString("nom"),
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
-                        vivante,
                         resultSet.getString("quantite"),
                         resultSet.getString("fournisseur_id")
                 });

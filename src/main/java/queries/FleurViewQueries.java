@@ -30,21 +30,16 @@ public class FleurViewQueries {
      */
     public void GetFleurTable(DefaultTableModel model){
         try {
-            String vivante;
             String requete = "SELECT * FROM fleur ORDER BY fleur_id ASC;";
             java.sql.Statement statement = connection.createStatement();
             java.sql.ResultSet resultSet = statement.executeQuery(requete);
             while (resultSet.next()) {
-                vivante = resultSet.getString("vivante");
-                if (Objects.equals(vivante, "t")) vivante = "True";
-                else vivante = "False";
                 model.addRow(new Object[]{
                         resultSet.getString("fleur_id"),
                         resultSet.getString("nom"),
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
-                        vivante,
                         resultSet.getString("quantite"),
                         resultSet.getString("fournisseur_id")
                 });
@@ -65,7 +60,7 @@ public class FleurViewQueries {
      */
     public void ajoutFleur(String nom, float age, float dureeVie, float prix, int quantite, int fournisseur_id){
         try {
-            String requete = "INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('"+nom+"', "+age+", "+dureeVie+", true, "+prix+", "+quantite+", "+fournisseur_id+")";
+            String requete = "INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('"+nom+"', "+age+", "+dureeVie+", "+prix+", "+quantite+", "+fournisseur_id+")";
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
             preparedStatement.executeUpdate();
         } catch (Exception e) {

@@ -10,7 +10,7 @@ import java.io.File;
 
 public class PrincipalView extends JFrame {
     private static JTabbedPane voletOnglet;
-    private JPanel ongletAccueil, ongletFleur, ongletCommande, ongletClient, ongletFournisseur;
+    private JPanel ongletFleur, ongletCommande, ongletClient, ongletFournisseur;
 
     AlerteFleurFanerView alerte;
 
@@ -44,7 +44,7 @@ public class PrincipalView extends JFrame {
         panel.add(verticalBox);
 
         if(AlerteFleurFaner){
-            JFrame frame = new JFrame("Fleurs fanant dans moins d'une semaine");
+            JFrame frame = new JFrame("Alerte : Fleurs qui vont faner dans moins de 7 jours");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setContentPane(new AlerteFleurFanerView(password));
             frame.pack();
