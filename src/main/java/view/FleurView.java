@@ -18,7 +18,7 @@ import javax.swing.table.TableRowSorter;
 public class FleurView extends JPanel {
     private static JTable table;
 
-    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Vivante", "Quantité", "Fournisseur Id"};
+    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Quantité", "Fournisseur Id"};
     public static FleurViewQueries conn;
 
     /**
@@ -127,18 +127,7 @@ public class FleurView extends JPanel {
                 }
             }
         });
-
-        //Création du bouton pour rafraichir la table
-        JButton rafraichir = new JButton("Rafraichir");
-        boiteVertical.add(rafraichir);
-        rafraichir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resetTable();
-            }
-        });
     }
-
     /**
      * Méthode qui permet de rafraichir la table
      */

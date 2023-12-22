@@ -25,7 +25,6 @@ fleur_id SERIAL NOT NULL,
 nom TEXT,
 age FLOAT,
 duree_vie FLOAT,
-vivante BOOLEAN,
 prix_unitaire FLOAT,
 quantite INTEGER,
 fournisseur_id SERIAL NOT NULL,
@@ -68,13 +67,13 @@ INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 1', '1 rue de la Pai
 INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 2', '2 rue de la Paix');
 INSERT INTO FOURNISSEUR (nom, adresse) VALUES ('Fournisseur 3', '3 rue de la Paix');
 
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Rose', 3, 5, TRUE, 1, 10, 1);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Tulipe', 1, 2, TRUE, 1, 10, 2);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Lys', 10, 20, TRUE, 1, 5, 3);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Orchidée', 13, 15, TRUE, 1, 5, 1);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 10, 15, TRUE, 1, 15, 2);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 20, TRUE, 1, 3, 3);
-INSERT INTO FLEUR (nom, age, duree_vie, vivante, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 20, TRUE, 1, 5, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Rose', 3, 5, 3, 10, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Tulipe', 1, 2, 2, 10, 2);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Lys', 10, 20, 1, 5, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Orchidée', 13, 15, 5, 5, 1);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 10, 15, 10, 15, 2);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 20, 7, 3, 3);
+INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 20, 20, 5, 1);
 
 INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 1);
 
