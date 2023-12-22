@@ -2,6 +2,7 @@ package view;
 
 import queries.CommandeViewQueries;
 import underView.CommandeFleurView;
+import underView.AjouterFleurView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class CommandeView extends JPanel{
 
     String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
 
-    public CommandeViewQueries conn;
+    public static CommandeViewQueries conn;
 
     /**
      * Constructeur de la classe CommandeView
@@ -76,19 +77,23 @@ public class CommandeView extends JPanel{
         //Création du bouton pour ajouter une fleur à la commande
         ajouterFleur = new JButton("Ajouter une fleur");
         boiteVertical.add(ajouterFleur);
-
         ajouterFleur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(table.getSelectedRow() != -1){
-                    int commande_id = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
-                    int fleur_id = Integer.parseInt(JOptionPane.showInputDialog(null, "Id de la fleur"));
-                    int quantite = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantité"));
-                    conn.ajoutFleurCommande(commande_id, fleur_id, quantite);
+                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+                    int row = table.getSelectedRow();
+                    String id = table.getModel().getValueAt(row, 0).toString();
+                    JFrame frame = new JFrame("Fleurs a ajouter " + id);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(800, 600);
+                    frame.setLocationRelativeTo(null);
+                    frame.setContentPane(new AjouterFleurView(password, commande_id));
+                    frame.setVisible(true);
                     model.setRowCount(0);
                     resetTable();
                     view.FleurView.resetTable();
+                    }
                 }
-            }
         });
 
         //Création du bouton pour modifier une commande
@@ -163,12 +168,12 @@ public class CommandeView extends JPanel{
     }
 
     /**
-     * Méthode qui permet de récupérer la table
-     * @return JTable
+     * Méthode qui permet de réinitialiser la table
      */
-    public void resetTable(){
+    public static void resetTable(){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         conn.GetCommandeTable(model);
     }
+
 }

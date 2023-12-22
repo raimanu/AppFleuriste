@@ -223,7 +223,10 @@ public class CommandeViewQueries {
             String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";
             java.sql.Statement statement = connection.createStatement();
             java.sql.ResultSet resultSet = statement.executeQuery(requete);
-            while (resultSet.next()) {
+            requete = "SELECT * FROM COMPOSE WHERE commande_id = " + commande_id + ";";
+            statement = connection.createStatement();
+            java.sql.ResultSet resultSetQuantiteCompose = statement.executeQuery(requete);
+            while (resultSet.next() && resultSetQuantiteCompose.next()) {
                 String vivante = resultSet.getString("vivante");
                 if (Objects.equals(vivante, "t")) vivante = "True";
                 else vivante = "False";
@@ -234,7 +237,7 @@ public class CommandeViewQueries {
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
                         vivante,
-                        resultSet.getString("quantite"),
+                        resultSetQuantiteCompose.getInt("quantite"),
                         resultSet.getString("fournisseur_id")
                 });
             }
