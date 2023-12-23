@@ -3,6 +3,7 @@ package view;
 import queries.CommandeViewQueries;
 import underView.CommandeFleurView;
 import underView.AjouterFleurView;
+import underView.SupprimerFleurCommandeView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -83,7 +84,7 @@ public class CommandeView extends JPanel{
                     int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
                     int row = table.getSelectedRow();
                     String id = table.getModel().getValueAt(row, 0).toString();
-                    JFrame frame = new JFrame("Fleurs a ajouter " + id);
+                    JFrame frame = new JFrame("Fleurs a ajouter dans la commande " + id);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setSize(800, 600);
                     frame.setLocationRelativeTo(null);
@@ -96,21 +97,37 @@ public class CommandeView extends JPanel{
                 }
         });
 
+        supprFleur = new JButton("Supprimer une fleur");
+        boiteVertical.add(supprFleur);
+        supprFleur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1){
+                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+                    int row = table.getSelectedRow();
+                    String id = table.getModel().getValueAt(row, 0).toString();
+                    JFrame frame = new JFrame("Fleurs a supprimer dans la commande " + id);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(800, 600);
+                    frame.setLocationRelativeTo(null);
+                    frame.setContentPane(new SupprimerFleurCommandeView(password, commande_id));
+                    frame.setVisible(true);
+                    model.setRowCount(0);
+                    resetTable();
+                    view.FleurView.resetTable();
+                    }
+                }
+        });
+
         //Création du bouton pour modifier une commande
-        modifierCommande = new JButton("Modifier une commande");
+        modifierCommande = new JButton("Modifier la date d'une commande");
         boiteVertical.add(modifierCommande);
         modifierCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(table.getSelectedRow() != -1){
-                    // Vérification de la colonne selectionné
-                    if (table.getSelectedColumn() != -1 && table.getSelectedColumn() != 0){
-                        String valeur = JOptionPane.showInputDialog("Nouvelle Valeur :");
+                if(table.getSelectedRow() != -1 ){
+                        String valeur = JOptionPane.showInputDialog("Nouvelle date (YYYY-MM-JJ):");
                         String clePrim = table.getValueAt(table.getSelectedRow(), 0).toString();
-                        conn.modifCommande(table.getColumnName(table.getSelectedColumn()),valeur,clePrim);
+                        conn.modifCommande("date_commande",valeur,clePrim);
                         resetTable();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Veuillez selectionner une colonne valide !");
-                    }
                 }
             }
         });

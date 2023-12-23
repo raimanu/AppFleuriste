@@ -40,6 +40,7 @@ public class FleurViewQueries {
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
+                        resultSet.getString("vivante"),
                         resultSet.getString("quantite"),
                         resultSet.getString("fournisseur_id")
                 });

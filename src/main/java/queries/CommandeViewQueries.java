@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 public class CommandeViewQueries {
     Connection connection = null;
@@ -139,6 +140,8 @@ public class CommandeViewQueries {
                 String requete_commande = "UPDATE commande SET montant_total = montant_total + (SELECT prix_unitaire FROM fleur WHERE fleur_id = " + fleur_id + ") * " + quantite + " WHERE commande_id = " + commande_id;
                 PreparedStatement preparedStatementCommande = connection.prepareStatement(requete_commande);
                 preparedStatementCommande.executeUpdate();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout de la fleur à la commande : quantité insuffisante");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout de la fleur à la commande");
@@ -146,7 +149,30 @@ public class CommandeViewQueries {
         }
     }
 
-    /**
+    public void supprFleurCommande(int commande_id, int fleur_id) {
+        try {
+            String select_compose = "SELECT * FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id;
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(select_compose);
+            String requete_compose = "DELETE FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id;
+            PreparedStatement preparedStatementCompose = connection.prepareStatement(requete_compose);
+            preparedStatementCompose.executeUpdate();
+            while (resultSet.next()) {
+                int quantite = resultSet.getInt("quantite");
+                String requete_fleur = "UPDATE fleur SET quantite = quantite + " + quantite + " WHERE fleur_id = " + fleur_id;
+                PreparedStatement preparedStatementFleur = connection.prepareStatement(requete_fleur);
+                preparedStatementFleur.executeUpdate();
+                String requete_commande = "UPDATE commande SET montant_total = montant_total - (SELECT prix_unitaire FROM fleur WHERE fleur_id = " + fleur_id + ") * " + quantite + " WHERE commande_id = " + commande_id;
+                PreparedStatement preparedStatementCommande = connection.prepareStatement(requete_commande);
+                preparedStatementCommande.executeUpdate();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la suppression de la fleur de la commande");
+            System.out.println(e + " Supprimer Fleur Commande");
+        }
+    }
+
+        /**
      * Méthode qui permet de confirmer une commande (supprimer la commande et les fleurs qui ne sont plus dans aucune commande avec 0 quantité)
      * @param commande_id   L'id de la commande
      */
@@ -219,6 +245,34 @@ public class CommandeViewQueries {
      * @param model         Le modèle de la table
      */
     public void GetCommandeFleur(String commande_id, DefaultTableModel model){
+        try {
+            String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";
+            java.sql.Statement statement = connection.createStatement();
+            java.sql.ResultSet resultSet = statement.executeQuery(requete);
+            requete = "SELECT * FROM COMPOSE WHERE commande_id = " + commande_id + ";";
+            statement = connection.createStatement();
+            java.sql.ResultSet resultSetQuantiteCompose = statement.executeQuery(requete);
+            while (resultSet.next() && resultSetQuantiteCompose.next()) {
+                String vivante = resultSet.getString("vivante");
+                if (Objects.equals(vivante, "t")) vivante = "True";
+                else vivante = "False";
+                model.addRow(new Object[]{
+                        resultSet.getString("fleur_id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("age"),
+                        resultSet.getString("duree_vie"),
+                        resultSet.getString("prix_unitaire"),
+                        vivante,
+                        resultSetQuantiteCompose.getInt("quantite"),
+                        resultSet.getString("fournisseur_id")
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void resetCommandeFleur(int commande_id, DefaultTableModel model){
         try {
             String requete = "SELECT * FROM FLEUR WHERE fleur_id IN (SELECT fleur_id FROM COMPOSE WHERE commande_id = " + commande_id + ");";
             java.sql.Statement statement = connection.createStatement();
