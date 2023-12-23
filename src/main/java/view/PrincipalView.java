@@ -43,14 +43,6 @@ public class PrincipalView extends JFrame {
         Box verticalBox = Box.createVerticalBox();
         panel.add(verticalBox);
 
-        if(AlerteFleurFaner){
-            JFrame frame = new JFrame("Alerte : Fleurs qui vont faner dans moins de 7 jours");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setContentPane(new AlerteFleurFanerView(password));
-            frame.pack();
-            frame.setVisible(true);
-        };
-
         voletOnglet = new JTabbedPane(JTabbedPane.TOP);
         this.getContentPane().add(voletOnglet);
 
@@ -66,7 +58,6 @@ public class PrincipalView extends JFrame {
         //Ajout de l'onglet classJava.Commande, permettant de gérer les commandes
         ongletCommande = new CommandeView(password);
         voletOnglet.addTab("Commande",new ImageIcon("images"+File.separator+"commande.png"), ongletCommande, null);
-
         ongletCommande.setBackground(new Color(9, 145, 143));
 
         //Ajout de l'onglet classJava.Client, permettant de gérer les clients
@@ -81,6 +72,17 @@ public class PrincipalView extends JFrame {
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        this.setAlwaysOnTop(true);
 
+        if(AlerteFleurFaner){
+            JFrame frame = new JFrame("Alerte : Fleurs qui vont faner dans moins de 7 jours");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setContentPane(new AlerteFleurFanerView(password));
+            frame.pack();
+            frame.setVisible(true);
+            frame.setAlwaysOnTop(true);
+            frame.setLocationRelativeTo(null);
+            frame.setBackground(Color.red);
+        };
     }
 }

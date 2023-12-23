@@ -12,6 +12,7 @@ public class ClientView extends JPanel {
     private static JTable table;
     public static ClientViewQueries conn;
 
+
     /**
      * Constructeur de la classe ClientView
      * @param password mot de passe de la base de données
