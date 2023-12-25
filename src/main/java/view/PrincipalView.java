@@ -70,6 +70,7 @@ public class PrincipalView extends JFrame {
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        this.setAlwaysOnTop(true);
 
         if(AlerteFleurFaner){
             JFrame frame = new JFrame("Alerte : Fleurs qui vont faner dans moins de 7 jours");
@@ -81,5 +82,6 @@ public class PrincipalView extends JFrame {
             frame.setLocationRelativeTo(null);
             frame.setBackground(Color.red);
         }
+        this.setAlwaysOnTop(false);
     }
 }
