@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.io.File;
 
 public class PrincipalView extends JFrame {
-    private static JTabbedPane voletOnglet;
-    private JPanel ongletFleur, ongletCommande, ongletClient, ongletFournisseur;
 
     AlerteFleurFanerView alerte;
 
@@ -21,7 +19,7 @@ public class PrincipalView extends JFrame {
     public PrincipalView(String password) {
         this.setTitle("Gestion des commandes et du stock");
 
-        //Couleur gris du content pane
+        //Couleur grise du content pane
         this.getContentPane().setBackground(new Color(79, 150, 155));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -43,7 +41,7 @@ public class PrincipalView extends JFrame {
         Box verticalBox = Box.createVerticalBox();
         panel.add(verticalBox);
 
-        voletOnglet = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane voletOnglet = new JTabbedPane(JTabbedPane.TOP);
         this.getContentPane().add(voletOnglet);
 
         //Couleur du volet d'onglet
@@ -51,28 +49,27 @@ public class PrincipalView extends JFrame {
         voletOnglet.setForeground(Color.BLACK);
 
 
-        //Ajout de l'onglet classJava.Fleur, permettant de gérer les fleurs disponible
-        ongletFleur = new FleurView(password);
+        //Ajout de l'onglet classJava.Fleur, permettant de gérer les fleurs disponibles
+        JPanel ongletFleur = new FleurView(password);
         voletOnglet.addTab("Fleur",new ImageIcon("images"+ File.separator+"item.png"), ongletFleur, null);
 
         //Ajout de l'onglet classJava.Commande, permettant de gérer les commandes
-        ongletCommande = new CommandeView(password);
+        JPanel ongletCommande = new CommandeView(password);
         voletOnglet.addTab("Commande",new ImageIcon("images"+File.separator+"commande.png"), ongletCommande, null);
         ongletCommande.setBackground(new Color(9, 145, 143));
 
         //Ajout de l'onglet classJava.Client, permettant de gérer les clients
-        ongletClient = new ClientView(password);
+        JPanel ongletClient = new ClientView(password);
         voletOnglet.addTab("Client",new ImageIcon("images"+File.separator+"commande.png"), ongletClient, null);
 
         //Ajout de l'onglet classJava.Fournisseur, permettant de gérer les fournisseurs
-        ongletFournisseur = new FournisseurView(password);
+        JPanel ongletFournisseur = new FournisseurView(password);
         voletOnglet.addTab("Fournisseur",new ImageIcon("images"+File.separator+"commande.png"), ongletFournisseur, null);
 
         //Centrer la fenetre
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-        this.setAlwaysOnTop(true);
 
         if(AlerteFleurFaner){
             JFrame frame = new JFrame("Alerte : Fleurs qui vont faner dans moins de 7 jours");
@@ -83,6 +80,6 @@ public class PrincipalView extends JFrame {
             frame.setAlwaysOnTop(true);
             frame.setLocationRelativeTo(null);
             frame.setBackground(Color.red);
-        };
+        }
     }
 }

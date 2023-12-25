@@ -14,7 +14,7 @@ import javax.swing.table.TableRowSorter;
 public class AjouterFleurView extends JPanel {
     private static JTable table;
 
-    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Vivante", "Quantité", "Fournisseur Id"};
+    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Quantité", "Fournisseur Id"};
     public static FleurViewQueries connFleur;
     public static CommandeViewQueries connCommande;
 

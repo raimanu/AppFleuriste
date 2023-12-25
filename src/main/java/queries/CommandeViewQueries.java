@@ -253,16 +253,12 @@ public class CommandeViewQueries {
             statement = connection.createStatement();
             java.sql.ResultSet resultSetQuantiteCompose = statement.executeQuery(requete);
             while (resultSet.next() && resultSetQuantiteCompose.next()) {
-                String vivante = resultSet.getString("vivante");
-                if (Objects.equals(vivante, "t")) vivante = "True";
-                else vivante = "False";
                 model.addRow(new Object[]{
                         resultSet.getString("fleur_id"),
                         resultSet.getString("nom"),
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
-                        vivante,
                         resultSetQuantiteCompose.getInt("quantite"),
                         resultSet.getString("fournisseur_id")
                 });
@@ -281,16 +277,12 @@ public class CommandeViewQueries {
             statement = connection.createStatement();
             java.sql.ResultSet resultSetQuantiteCompose = statement.executeQuery(requete);
             while (resultSet.next() && resultSetQuantiteCompose.next()) {
-                String vivante = resultSet.getString("vivante");
-                if (Objects.equals(vivante, "t")) vivante = "True";
-                else vivante = "False";
                 model.addRow(new Object[]{
                         resultSet.getString("fleur_id"),
                         resultSet.getString("nom"),
                         resultSet.getString("age"),
                         resultSet.getString("duree_vie"),
                         resultSet.getString("prix_unitaire"),
-                        vivante,
                         resultSetQuantiteCompose.getInt("quantite"),
                         resultSet.getString("fournisseur_id")
                 });

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -17,7 +18,7 @@ import javax.swing.table.TableRowSorter;
 public class FleurView extends JPanel {
     private static JTable table;
 
-    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "vivante", "Quantité", "Fournisseur Id"};
+    String[] colonne = {"Id","Nom","Age (Jour)","Durée de vie (Jour)","Prix Unitaire (Euro)", "Quantité", "Fournisseur Id"};
     public static FleurViewQueries conn;
 
     /**
@@ -65,29 +66,94 @@ public class FleurView extends JPanel {
         ajouterFleur.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean correct = false;
-                while(!correct) {
                     String nom = JOptionPane.showInputDialog("Nom :");
+                    if(Objects.equals(nom, "") || Objects.equals(nom, null)){
+                        return;
+                    }
+                    String age = JOptionPane.showInputDialog("age : (Chiffre seulement)");
+                    if(Objects.equals(age, "") || Objects.equals(age, null)){
+                        return;
+                    }
+                    if(Float.parseFloat(age) < 0){
+                        JOptionPane.showMessageDialog(null, "L'age ne peut pas être négatif");
+                        return;
+                    }
 
-                    float age = Float.parseFloat(JOptionPane.showInputDialog("age : (Chiffre seulement)"));
+                    String propositionDuree = "";
+                    String propositionPrix = "";
+                    switch (nom.toLowerCase()) {
+                        case "rose":
+                            propositionDuree = "10";
+                            propositionPrix = "6";
+                            break;
+                        case "tulipe":
+                            propositionDuree = "7";
+                            propositionPrix = "5";
+                            break;
+                        case "orchidee":
+                            propositionDuree = "18";
+                            propositionPrix = "8";
+                            break;
+                        case "marguerite":
+                            propositionDuree = "9";
+                            propositionPrix = "4";
+                            break;
+                        case "lys":
+                            propositionDuree = "14";
+                            propositionPrix = "7";
+                            break;
+                        case "oeillet":
+                            propositionDuree = "17";
+                            propositionPrix = "6";
+                            break;
+                        case "pivoine":
+                            propositionDuree = "8";
+                            propositionPrix = "5";
+                            break;
+                    }
+                    String dureeVie = JOptionPane.showInputDialog("duree de vie : (Chiffre seulement)", propositionDuree);
+                    if(Objects.equals(dureeVie, "") || Objects.equals(dureeVie, null)){
+                        return;
+                    }
+                    if(Float.parseFloat(dureeVie) < 0){
+                        JOptionPane.showMessageDialog(null, "La durée de vie ne peut pas être négatif");
+                        return;
+                    }
 
-                    float dureeVie = Float.parseFloat(JOptionPane.showInputDialog("duree de vie : (Chiffre seulement)"));
+                String prix = JOptionPane.showInputDialog("prix : (Chiffre seulement)", propositionPrix);
+                    if(Objects.equals(prix, "") || Objects.equals(prix, null)){
+                        return;
+                    }
+                    if(Float.parseFloat(prix) < 0){
+                        JOptionPane.showMessageDialog(null, "Le prix ne peut pas être négatif");
+                        return;
+                    }
 
-                    float prix = Float.parseFloat(JOptionPane.showInputDialog("prix : (Chiffre seulement)"));
+                    String quantite = JOptionPane.showInputDialog("quantite : (Chiffre seulement)");
+                    if(Objects.equals(quantite, "") || Objects.equals(quantite, null)){
+                        return;
+                    }
+                    if(Float.parseFloat(quantite) < 0){
+                        JOptionPane.showMessageDialog(null, "La quantité ne peut pas être négatif");
+                        return;
+                    }
 
-                    int quantite = Integer.parseInt(JOptionPane.showInputDialog("quantite : (Chiffre seulement)"));
+                    String fournisseur_id = JOptionPane.showInputDialog("fournisseur_id : (Chiffre seulement)");
+                    if(Objects.equals(fournisseur_id, "") || Objects.equals(fournisseur_id, null)){
+                        return;
+                    }
+                    if(Float.parseFloat(fournisseur_id) < 0){
+                        JOptionPane.showMessageDialog(null, "Il n'y a pas d'id négatif");
+                        return;
+                    }
 
-                    int fournisseur_id = Integer.parseInt(JOptionPane.showInputDialog("fournisseur_id : (Chiffre seulement)"));
-
-                    if(age > dureeVie){
+                    if(Float.parseFloat(age) > Float.parseFloat(dureeVie)){
                         JOptionPane.showMessageDialog(null, "L'age ne peut pas être supérieur à la durée de vie");
                     }
                     else{
-                        correct = true;
-                        conn.ajoutFleur(nom, age, dureeVie, prix, quantite, fournisseur_id);
+                        conn.ajoutFleur(nom, Float.parseFloat(age), Float.parseFloat(dureeVie), Float.parseFloat(prix), Integer.parseInt(quantite), Integer.parseInt(fournisseur_id));
                         resetTable();
                     }
-                }
             }
         });
 

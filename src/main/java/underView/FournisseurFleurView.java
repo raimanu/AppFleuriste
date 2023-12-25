@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class FournisseurFleurView extends JPanel {
-    String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Vivante", "Quantité", "Fournisseur Id"};
+    String[] colonne = {"Id","Nom","Age","Durée de vie","Prix Unitaire", "Quantité", "Fournisseur Id"};
     JTable table;
     public static FournisseurViewQueries conn;
 
