@@ -62,6 +62,12 @@ public class CommandeView extends JPanel{
         //Ajout de la table dans le panel
         this.add(scrollPane);
 
+        //Titre de la catégorie de bouton
+        JLabel titre1 = new JLabel("Commande");
+        titre1.setHorizontalAlignment(SwingConstants.CENTER);
+        titre1.setFont(titre1.getFont().deriveFont(20f));
+        boiteVertical.add(titre1);
+
         //Création du bouton pour rajouter une commande
         ajouterCommande = new JButton("Ajouter une commande");
         boiteVertical.add(ajouterCommande);
@@ -73,49 +79,6 @@ public class CommandeView extends JPanel{
                 model.setRowCount(0);
                 resetTable();
             }
-        });
-
-        //Création du bouton pour ajouter une fleur à la commande
-        ajouterFleur = new JButton("Ajouter une fleur");
-        boiteVertical.add(ajouterFleur);
-        ajouterFleur.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(table.getSelectedRow() != -1){
-                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
-                    int row = table.getSelectedRow();
-                    String id = table.getModel().getValueAt(row, 0).toString();
-                    JFrame frame = new JFrame("Fleurs a ajouter dans la commande " + id);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setSize(800, 600);
-                    frame.setLocationRelativeTo(null);
-                    frame.setContentPane(new AjouterFleurView(password, commande_id));
-                    frame.setVisible(true);
-                    model.setRowCount(0);
-                    resetTable();
-                    view.FleurView.resetTable();
-                    }
-                }
-        });
-
-        supprFleur = new JButton("Supprimer une fleur");
-        boiteVertical.add(supprFleur);
-        supprFleur.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(table.getSelectedRow() != -1){
-                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
-                    int row = table.getSelectedRow();
-                    String id = table.getModel().getValueAt(row, 0).toString();
-                    JFrame frame = new JFrame("Fleurs a supprimer dans la commande " + id);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setSize(800, 600);
-                    frame.setLocationRelativeTo(null);
-                    frame.setContentPane(new SupprimerFleurCommandeView(password, commande_id));
-                    frame.setVisible(true);
-                    model.setRowCount(0);
-                    resetTable();
-                    view.FleurView.resetTable();
-                    }
-                }
         });
 
         //Création du bouton pour modifier une commande
@@ -160,6 +123,55 @@ public class CommandeView extends JPanel{
                     resetTable();
                     view.FleurView.resetTable();
                     JOptionPane.showMessageDialog(null, "Commande confirmée !");
+                }
+            }
+        });
+
+        //Titre de la catégorie de bouton
+        JLabel titre2 = new JLabel("Fleurs");
+        titre2.setHorizontalAlignment(SwingConstants.CENTER);
+        titre2.setFont(titre2.getFont().deriveFont(20f));
+        boiteVertical.add(titre2);
+
+        //Création du bouton pour ajouter une fleur à la commande
+        ajouterFleur = new JButton("Ajouter une fleur");
+        boiteVertical.add(ajouterFleur);
+        ajouterFleur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1){
+                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+                    int row = table.getSelectedRow();
+                    String id = table.getModel().getValueAt(row, 0).toString();
+                    JFrame frame = new JFrame("Fleurs a ajouter dans la commande " + id);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(800, 600);
+                    frame.setLocationRelativeTo(null);
+                    frame.setContentPane(new AjouterFleurView(password, commande_id));
+                    frame.setVisible(true);
+                    model.setRowCount(0);
+                    resetTable();
+                    view.FleurView.resetTable();
+                }
+            }
+        });
+
+        supprFleur = new JButton("Supprimer une fleur");
+        boiteVertical.add(supprFleur);
+        supprFleur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() != -1){
+                    int commande_id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+                    int row = table.getSelectedRow();
+                    String id = table.getModel().getValueAt(row, 0).toString();
+                    JFrame frame = new JFrame("Fleurs a supprimer dans la commande " + id);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setSize(800, 600);
+                    frame.setLocationRelativeTo(null);
+                    frame.setContentPane(new SupprimerFleurCommandeView(password, commande_id));
+                    frame.setVisible(true);
+                    model.setRowCount(0);
+                    resetTable();
+                    view.FleurView.resetTable();
                 }
             }
         });

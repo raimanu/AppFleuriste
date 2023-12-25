@@ -57,8 +57,13 @@ public class FleurView extends JPanel {
         this.add(scrollPane);
         //Ajout de la possibilité de selectionner une ligne et une case de la table
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        //Ajout de la table dans le panel
         this.add(scrollPane);
+
+        //Titre de la catégorie de bouton
+        JLabel titre1 = new JLabel("Fleur");
+        titre1.setHorizontalAlignment(SwingConstants.CENTER);
+        titre1.setFont(titre1.getFont().deriveFont(20f));
+        boiteVertical.add(titre1);
 
         //Création du bouton pour rajouter une fleur
         JButton ajouterFleur = new JButton("Ajouter");

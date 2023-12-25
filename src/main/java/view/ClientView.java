@@ -52,6 +52,12 @@ public class ClientView extends JPanel {
         //Ajout de la table dans le panel
         this.add(scrollPane);
 
+        //Titre de la catégorie de bouton
+        JLabel titre1 = new JLabel("Client");
+        titre1.setHorizontalAlignment(SwingConstants.CENTER);
+        titre1.setFont(titre1.getFont().deriveFont(20f));
+        boiteVertical.add(titre1);
+
         //Création du bouton pour rajouter un client
         JButton ajouterClient = new JButton("Ajouter");
         boiteVertical.add(ajouterClient);

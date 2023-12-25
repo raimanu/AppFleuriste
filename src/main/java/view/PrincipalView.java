@@ -20,7 +20,7 @@ public class PrincipalView extends JFrame {
         this.setTitle("Gestion des commandes et du stock");
 
         //Couleur grise du content pane
-        this.getContentPane().setBackground(new Color(79, 150, 155));
+        this.getContentPane().setBackground(new Color(74, 171, 105, 218));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -28,7 +28,6 @@ public class PrincipalView extends JFrame {
         alerte = new AlerteFleurFanerView(password);
         //Création du panel principale
         this.setLayout(new BorderLayout(0, 0));
-        this.setBackground(new Color(78, 160, 164));
 
         AlerteFleurFanerQueries conn = new AlerteFleurFanerQueries(password);
         boolean AlerteFleurFaner = conn.GetAlerteFleurFaner(alerte.getModel());
@@ -45,8 +44,7 @@ public class PrincipalView extends JFrame {
         this.getContentPane().add(voletOnglet);
 
         //Couleur du volet d'onglet
-        voletOnglet.setBackground(new Color(9, 145, 143));
-        voletOnglet.setForeground(Color.BLACK);
+        voletOnglet.setBackground(new Color(74, 171, 105, 218));
 
 
         //Ajout de l'onglet classJava.Fleur, permettant de gérer les fleurs disponibles
@@ -56,7 +54,6 @@ public class PrincipalView extends JFrame {
         //Ajout de l'onglet classJava.Commande, permettant de gérer les commandes
         JPanel ongletCommande = new CommandeView(password);
         voletOnglet.addTab("Commande",new ImageIcon("images"+File.separator+"commande.png"), ongletCommande, null);
-        ongletCommande.setBackground(new Color(9, 145, 143));
 
         //Ajout de l'onglet classJava.Client, permettant de gérer les clients
         JPanel ongletClient = new ClientView(password);

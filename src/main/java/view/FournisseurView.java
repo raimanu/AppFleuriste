@@ -55,6 +55,12 @@ public class FournisseurView extends JPanel{
         //Ajout de la table dans le panel
         this.add(scrollPane);
 
+        //Titre de la catégorie de bouton
+        JLabel titre1 = new JLabel("Fournisseur");
+        titre1.setHorizontalAlignment(SwingConstants.CENTER);
+        titre1.setFont(titre1.getFont().deriveFont(20f));
+        boiteVertical.add(titre1);
+
         //Création du bouton pour rajouter un fournisseur
         JButton ajouterFournisseur = new JButton("Ajouter");
         boiteVertical.add(ajouterFournisseur);
