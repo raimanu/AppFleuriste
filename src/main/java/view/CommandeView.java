@@ -15,12 +15,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 
+
 public class CommandeView extends JPanel{
     private static JTable table;
 
     private static JButton ajouterCommande, supprCommande, modifierCommande, ajouterFleur, supprFleur, confirmerCommande, voirFleurs;
 
-    String[] colonne = {"Id" ,"Date", "Prix Total", "Client Id"};
+    String[] colonne = {"Id" ,"Date (YYYY-MM-JJ)", "Prix Total (Euro)", "Client Id"};
 
     public static CommandeViewQueries conn;
 
@@ -73,9 +74,24 @@ public class CommandeView extends JPanel{
         boiteVertical.add(ajouterCommande);
         ajouterCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String date = JOptionPane.showInputDialog(null, "Date de la commande");
-                int client_id = Integer.parseInt(JOptionPane.showInputDialog(null, "Id du client"));
-                conn.ajoutCommande(date, client_id);
+                String date = JOptionPane.showInputDialog(null, "Date de la commande (YYYY-MM-JJ):");
+                try {
+                    Integer.parseInt(date.substring(0, 4));
+                    Integer.parseInt(date.substring(5, 7));
+                    Integer.parseInt(date.substring(8, 10));
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, "Date invalide !");
+                    return;
+                }
+
+                String client_id = JOptionPane.showInputDialog(null, "Id du client");
+                try {
+                    Integer.parseInt(client_id);
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, "Id invalide !");
+                    return;
+                }
+                conn.ajoutCommande(date, Integer.parseInt(client_id));
                 model.setRowCount(0);
                 resetTable();
             }

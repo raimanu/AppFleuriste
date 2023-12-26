@@ -119,18 +119,17 @@ public class CommandeViewQueries {
      */
     public void ajoutFleurCommande(int commande_id, int fleur_id, int quantite){
         try {
-            if(checkComposeExist(commande_id, fleur_id)) {
-                String requete_fleur = "UPDATE fleur SET quantite = quantite + (SELECT quantite FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id + ") WHERE fleur_id = " + fleur_id;
-                PreparedStatement preparedStatementFleur = connection.prepareStatement(requete_fleur);
-                preparedStatementFleur.executeUpdate();
-                String requete_commande = "UPDATE commande SET montant_total = montant_total - (SELECT prix_unitaire FROM fleur WHERE fleur_id = " + fleur_id + ") * (SELECT quantite FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id + ") WHERE commande_id = " + commande_id;
-                PreparedStatement preparedStatementCommande = connection.prepareStatement(requete_commande);
-                preparedStatementCommande.executeUpdate();
-                String requete_compose = "DELETE FROM compose WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id;
+            if(checkComposeExist(commande_id, fleur_id) && checkFleurQuantite(quantite, fleur_id)) {
+                String requete_compose = "UPDATE compose SET quantite = quantite + " + quantite + " WHERE commande_id = " + commande_id + " AND fleur_id = " + fleur_id;
                 PreparedStatement preparedStatementCompose = connection.prepareStatement(requete_compose);
                 preparedStatementCompose.executeUpdate();
-            }
-            if(checkFleurQuantite(quantite, fleur_id)) {
+                String requete_fleur = "UPDATE fleur SET quantite = quantite - " + quantite + " WHERE fleur_id = " + fleur_id;
+                PreparedStatement preparedStatementFleur = connection.prepareStatement(requete_fleur);
+                preparedStatementFleur.executeUpdate();
+                String requete_commande = "UPDATE commande SET montant_total = montant_total + (SELECT prix_unitaire FROM fleur WHERE fleur_id = " + fleur_id + ") * " + quantite + " WHERE commande_id = " + commande_id;
+                PreparedStatement preparedStatementCommande = connection.prepareStatement(requete_commande);
+                preparedStatementCommande.executeUpdate();
+            } else if(checkFleurQuantite(quantite, fleur_id)) {
                 String requete_compose = "INSERT INTO COMPOSE (commande_id, fleur_id, quantite) VALUES (" + commande_id + ", " + fleur_id + ", " + quantite + ")";
                 PreparedStatement preparedStatementCompose = connection.prepareStatement(requete_compose);
                 preparedStatementCompose.executeUpdate();

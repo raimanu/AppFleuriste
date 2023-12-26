@@ -77,7 +77,9 @@ public class FleurViewQueries {
             String requete = "DELETE FROM fleur WHERE fleur_id = '"+id+"'";
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
             preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Ligne selectionné supprimé !");
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la suppression, la fleur compose une commande.", "Erreur", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
     }

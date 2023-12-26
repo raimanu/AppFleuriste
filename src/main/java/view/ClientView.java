@@ -77,7 +77,8 @@ public class ClientView extends JPanel {
             if(table.getSelectedRow() != -1){
                 String[] idCommande;
                 idCommande = conn.GetClientCommande(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-                if (idCommande != null){
+                //Si idCommande est [null] alors le client n'a pas de commande en cours
+                if (idCommande[0] != null){
                     JOptionPane.showMessageDialog(null, "Impossible de supprimer ce client car il a des commandes en cours", "Erreur", JOptionPane.ERROR_MESSAGE);
                     for (String s : idCommande) {
                         JOptionPane.showMessageDialog(null, "Commande id : " + s, "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -104,6 +105,8 @@ public class ClientView extends JPanel {
                 conn.modifClient(nomColonne, valeur, clePrim);
                 model.setRowCount(0);
                 conn.GetClientTable(model);
+            } else {
+                JOptionPane.showMessageDialog(null, "Veuillez selectionner une colonne ", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
 

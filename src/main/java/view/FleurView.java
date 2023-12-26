@@ -79,6 +79,12 @@ public class FleurView extends JPanel {
                     if(Objects.equals(age, "") || Objects.equals(age, null)){
                         return;
                     }
+                    try {
+                        Float.parseFloat(age);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "L'age doit être un chiffre");
+                        return;
+                    }
                     if(Float.parseFloat(age) < 0){
                         JOptionPane.showMessageDialog(null, "L'age ne peut pas être négatif");
                         return;
@@ -120,6 +126,12 @@ public class FleurView extends JPanel {
                     if(Objects.equals(dureeVie, "") || Objects.equals(dureeVie, null)){
                         return;
                     }
+                    try {
+                        Float.parseFloat(dureeVie);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "La durée de vie doit être un chiffre");
+                        return;
+                    }
                     if(Float.parseFloat(dureeVie) < 0){
                         JOptionPane.showMessageDialog(null, "La durée de vie ne peut pas être négatif");
                         return;
@@ -127,6 +139,12 @@ public class FleurView extends JPanel {
 
                 String prix = JOptionPane.showInputDialog("prix : (Chiffre seulement)", propositionPrix);
                     if(Objects.equals(prix, "") || Objects.equals(prix, null)){
+                        return;
+                    }
+                    try {
+                        Float.parseFloat(prix);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Le prix doit être un chiffre");
                         return;
                     }
                     if(Float.parseFloat(prix) < 0){
@@ -138,6 +156,12 @@ public class FleurView extends JPanel {
                     if(Objects.equals(quantite, "") || Objects.equals(quantite, null)){
                         return;
                     }
+                    try {
+                        Float.parseFloat(quantite);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "La quantité doit être un chiffre");
+                        return;
+                    }
                     if(Float.parseFloat(quantite) < 0){
                         JOptionPane.showMessageDialog(null, "La quantité ne peut pas être négatif");
                         return;
@@ -145,6 +169,12 @@ public class FleurView extends JPanel {
 
                     String fournisseur_id = JOptionPane.showInputDialog("fournisseur_id : (Chiffre seulement)");
                     if(Objects.equals(fournisseur_id, "") || Objects.equals(fournisseur_id, null)){
+                        return;
+                    }
+                    try {
+                        Float.parseFloat(fournisseur_id);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "L'id du fournisseur doit être un chiffre");
                         return;
                     }
                     if(Float.parseFloat(fournisseur_id) < 0){
@@ -173,7 +203,6 @@ public class FleurView extends JPanel {
                     conn.supprFleur(table.getValueAt(table.getSelectedRow(), 0).toString());
                     // Rafraichit la table pour afficher les nouvelles données
                     resetTable();
-                    JOptionPane.showMessageDialog(null, "Ligne selectionné supprimé !");
                 }
             }
         });
