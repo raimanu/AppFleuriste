@@ -76,8 +76,8 @@ public class PrincipalView extends JFrame {
             frame.pack();
             frame.setVisible(true);
             frame.setAlwaysOnTop(true);
+            frame.setBounds(0, 0, 800, 500);
             frame.setLocationRelativeTo(null);
-            frame.setBounds(450, 225, 800, 500);
         }
         this.setAlwaysOnTop(false);
     }
