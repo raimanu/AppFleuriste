@@ -8,3 +8,5 @@ Pour lancer notre application :
 - Lancer le Main.java
 - Rentrer le mot de passe de votre base de données dans la console.
 
+PS : 
+Installer le jar "postgresql-42.6.0.jar" si non trouvé.
