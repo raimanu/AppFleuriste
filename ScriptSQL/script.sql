@@ -74,11 +74,3 @@ INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id)
 INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Muguet', 10, 15, 10, 15, 2);
 INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Pâquerette', 1, 20, 7, 3, 3);
 INSERT INTO FLEUR (nom, age, duree_vie, prix_unitaire, quantite, fournisseur_id) VALUES ('Pivoine', 1, 20, 20, 5, 1);
-
-INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 1);
-
-INSERT INTO COMPOSE (commande_id, fleur_id, quantite) VALUES (1, 1, 1);
-
-INSERT INTO COMMANDE (date_commande, montant_total, client_id) VALUES ('2018-01-01', 1, 2);
-
-INSERT INTO COMPOSE (commande_id, fleur_id, quantite) VALUES (2, 2, 1);
